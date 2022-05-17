@@ -1,0 +1,36 @@
+package com.eShoppingZone.product.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.eShoppingZone.product.service.ProductService;
+
+@RestController
+@RequestMapping("product/user")
+public class UserProductController {
+	
+	private ProductService productService;
+	
+	@GetMapping("/allproducts")
+	public List<Product> getAllProducts(){
+		
+		return productRepository.findAll();
+	}
+	@GetMapping("/findAllProducts/{productName}")
+	public List<Product> getProductByName(@PathVariable String productName) {
+		
+		return productRepository.findByProductName(productName);
+	}
+
+	
+	  @GetMapping("/Category/{category}") public List<Product>
+	  getProductByCategory(@PathVariable String category){
+	  
+	  return productRepository.findByCategory(category); }
+	  
+	  @GetMapping("Type/{productType}")
+	  public List<Product> getProductByType(String productType){
+	  
+	  return productRepository.findByProductType(productType); }
+
+}

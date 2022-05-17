@@ -1,0 +1,49 @@
+package com.eShoppingZone.product.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.eShoppingZone.product.model.Product;
+import com.eShoppingZone.product.service.ProductService;
+
+@RestController
+@RequestMapping("/admins")
+public class AdminProductController {
+	@Autowired
+	private ProductService productService;
+
+	@PostMapping("/addProduct")
+	public String addProduct(@RequestBody Product product) {
+
+		productService.save(product);
+		return "A new product is added";
+	}
+
+	@PutMapping("/updateproduct")
+	public String updateProduct(Product product) {
+
+		productService.save(product);
+		return "A existing product is updated";
+	}
+
+	@PutMapping("/update/{_id}")
+	public Product updateProduct(@RequestBody Product product, @PathVariable String _id) {
+
+		product.set_id(_id);
+		productService.save(product);
+		return product;
+	}
+
+	@DeleteMapping("/deleteproduct/{_id}")
+	public String deleteById(@PathVariable String _id) {
+
+		productService.deleteById(_id);
+		return "Product Deleted with a Product Id " + _id;
+	}
+
+}

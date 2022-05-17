@@ -1,0 +1,5 @@
+package com.eShoppingZone.product.controller;
+
+public class ClientProductController {
+
+}

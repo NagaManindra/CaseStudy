@@ -1,0 +1,5 @@
+package com.eShoppingZone.product.service;
+
+public class ProductService {
+
+}
