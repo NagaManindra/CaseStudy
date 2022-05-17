@@ -1,0 +1,60 @@
+package com.eShoppingZone.user.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.eShoppingZone.user.model.User;
+import com.eShoppingZone.user.repo.UserRepo;
+
+@Service
+public class UserService {
+
+	@Autowired
+	private UserRepo userRepo;
+
+	// create User
+	public User createUser(User user) {
+		return userRepo.save(new User(user.getName(), user.getEmail(), user.getGender(), user.getDob(),
+				user.getRole(), user.getMobile_no(), user.getPassword(), user.getAddress()));
+	}
+	//findAll users
+	public List<User> getAll() {
+		return userRepo.findAll();
+	}
+	//find user by name
+	public User getByName(String name) {
+		return userRepo.findByName(name);
+	}
+	//find user by email
+	public User getByEmail(String email) {
+		return userRepo.findByEmail(email);
+	}
+	//update user
+	public User updateUser(User user) {
+		User user2 = userRepo.findByEmail(user.getEmail());
+		user2.set_id(user.getName());
+		user2.setEmail(user.getEmail());
+		user2.setGender(user.getGender());
+		user2.setDob(user.getDob());
+		user2.setRole(user.getRole());
+		user2.setMobile_no(user.getMobile_no());
+		user2.setPassword(user.getPassword());
+		user2.setAddress(user.getAddress());
+		
+		return userRepo.save(user2);
+	}
+	//delete user by name
+	public void deleteByName(String name) {
+		User user = userRepo.findByName(name);
+		userRepo.delete(user);
+	}
+	//delete user by email
+	public void deleteByEmail(String email) {
+		User user = userRepo.findByName(email);
+		userRepo.delete(user);
+	}
+	
+	
+}

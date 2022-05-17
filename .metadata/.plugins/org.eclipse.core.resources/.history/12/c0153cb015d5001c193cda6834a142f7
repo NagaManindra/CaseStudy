@@ -1,0 +1,6 @@
+package com.eShoppingZone;
+
+public class mm {
+
+	private string name;
+}

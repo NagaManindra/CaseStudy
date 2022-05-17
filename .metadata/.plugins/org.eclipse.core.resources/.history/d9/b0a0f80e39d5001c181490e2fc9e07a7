@@ -1,0 +1,20 @@
+package com.eShoppingZone.user.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.eShoppingZone.user.model.User;
+import com.eShoppingZone.user.repo.UserRepo;
+
+@Service
+public class UserService {
+
+	@Autowired
+	private UserRepo userRepo;
+
+	// create User
+	public User createUser(User user) {
+		return userRepo.save(new User(user.getName(), user.getEmail(), user.getGender(), user.getDob(), user.getRole(),
+				user.getMobile_no(), user.getPassword(), user.getAddress()));
+	}
+}
