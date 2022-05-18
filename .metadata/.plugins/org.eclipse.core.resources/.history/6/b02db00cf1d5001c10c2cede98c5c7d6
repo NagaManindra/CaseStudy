@@ -1,0 +1,74 @@
+package com.eShoppingZone.order.model;
+
+import java.util.List;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "order")
+public class Order {
+
+	@Id
+	private String orderId;
+	private String orderDate;
+	private double TotalPrice;
+	@SuppressWarnings("unused")
+	private String orderStatus = "Order Placed";
+	private Address address;
+	private Long mobileNO;
+	private List<Item> items;
+
+	public Order() {
+		super();
+	}
+
+	public Order(String orderDate, double totalPrice, Address address, Long mobileNO, List<Item> items) {
+		super();
+		this.orderDate = orderDate;
+		TotalPrice = totalPrice;
+		this.address = address;
+		this.mobileNO = mobileNO;
+		this.items = items;
+	}
+
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public double getTotalPrice() {
+		return TotalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		TotalPrice = totalPrice;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public Long getMobileNO() {
+		return mobileNO;
+	}
+
+	public void setMobileNO(Long mobileNO) {
+		this.mobileNO = mobileNO;
+	}
+
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
+}

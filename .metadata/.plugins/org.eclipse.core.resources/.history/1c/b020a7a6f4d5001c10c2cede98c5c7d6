@@ -1,0 +1,39 @@
+package com.eShoppingZone.order.service;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.eShoppingZone.order.model.Order;
+import com.eShoppingZone.order.repo.OrderRepo;
+
+@Service
+public class OrderService {
+
+	@Autowired
+	private OrderRepo orderRepo;
+
+	// create
+	public Order createOrder(Order order) {
+		return orderRepo.save(order);
+	}
+
+	// get order by customerId
+	public List<Order> getByCustomerId(String customerId) {
+		return orderRepo.finfByCustomerId(customerId);
+	}
+
+	// get order by date
+	public List<Order> getByDate(LocalDate date) {
+		return orderRepo.findByOrderDate(date);
+	}
+
+	// update order
+	public Order updateOrder(Order order) {
+		Order orderData = orderRepo.findByOrderId(order.getOrderId());
+		orderData.setOrderStatus(order.getOrderStatus());
+		return orderRepo.save(orderData);
+	}
+}

@@ -1,0 +1,33 @@
+package com.eShoppingZone.order.controller;
+
+import java.time.LocalDate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.eShoppingZone.order.model.Cart;
+import com.eShoppingZone.order.model.Order;
+import com.eShoppingZone.order.model.User;
+import com.eShoppingZone.order.service.OrderService;
+
+@RestController
+@RequestMapping("/order")
+public class OrderController {
+
+	@Autowired
+	private OrderService orderService;
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@PostMapping("/addOrder/{customerId}")
+	public Order createOrder(@PathVariable("customerId") String customerId) {
+		User user = restTemplate.getForObject("http://localhost:9001/user/" + customerId, User.class);
+		Cart cart = restTemplate.getForObject("http://localhost:9003/cart/getcart/" + customerId, Cart.class);
+		return orderService.createOrder(new Order(customerId, LocalDate.now(), cart.getTotalPrice(), "Order Placed",
+				user.getAddress(), user.getMobile_no(), cart.getItems()));
+	}
+}

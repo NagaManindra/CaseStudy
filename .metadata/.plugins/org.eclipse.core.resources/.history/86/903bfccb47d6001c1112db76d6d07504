@@ -1,0 +1,5 @@
+package com.eShoppingZone.order.fallback;
+
+public class UserFallBack {
+
+}

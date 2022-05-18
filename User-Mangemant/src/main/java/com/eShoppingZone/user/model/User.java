@@ -23,7 +23,7 @@ public class User {
 	private String gender;
 	private String dob;
 	private String role;
-	private Double mobile_no;
+	private long mobile_no;
 	private String password;
 	private Address address;
 
