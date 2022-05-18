@@ -17,6 +17,12 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2021.0.2</spring-cloud.version>
 	</properties>
+	<repositories>
+	    <repository>
+	        <id>my-repo1</id>
+	        <url> http://artifactorypg.paytm.in/artifactory/libs-release </url>
+	    </repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -75,6 +81,33 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		    <groupId>com.paytm</groupId>
+		    <artifactId>paytm-checksum</artifactId>
+		    <version>1.2.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.tomcat.embed</groupId>
+		    <artifactId>tomcat-embed-jasper</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>javax.validation</groupId>
+		    <artifactId>validation-api</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      </dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -105,4 +138,5 @@
 		</plugins>
 	</build>
 
+	<packaging>war</packaging>
 </project>

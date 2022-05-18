@@ -1,0 +1,57 @@
+{"properties": [
+  {
+    "name": "paytm.payment.sandbox.merchantId",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.merchantId'"
+  },
+  {
+    "name": "paytm.payment.sandbox.merchantId",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.merchantId'"
+  },
+  {
+    "name": "paytm.payment.sandbox.merchantId",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.merchantId'"
+  },
+  {
+    "name": "paytm.payment.sandbox.merchantId",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.merchantId'"
+  },
+  {
+    "name": "paytm.payment.sandbox.merchantId",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.merchantId'"
+  },
+  {
+    "name": "paytm.payment.sandbox.merchantId",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.merchantId'"
+  },
+  {
+    "name": "paytm.payment.sandbox.merchantId",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.merchantId'"
+  },
+  {
+    "name": "paytm.payment.sandbox.merchantKey",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.merchantKey'"
+  },
+  {
+    "name": "paytm.payment.sandbox.channelId",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.channelId'"
+  },
+  {
+    "name": "paytm.payment.sandbox.industryTypeId",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.industryTypeId'"
+  },
+  {
+    "name": "paytm.payment.sandbox.website",
+    "type": "java.lang.String",
+    "description": "A description for 'paytm.payment.sandbox.website'"
+  }
+]}
