@@ -40,7 +40,7 @@ public class WebController {
 		 * HttpEntity<Product> entity = new HttpEntity<Product>(headers);
 		 */
 		ResponseEntity<Product[]> response = restTemplate
-				.getForEntity("http://localhost:9002/product/user/getByName/" + productName, Product[].class);
+				.getForEntity("http://product-managment/product/user/getByName/" + productName, Product[].class);
 		return response.getBody();
 
 	}
@@ -49,7 +49,7 @@ public class WebController {
 	@RequestMapping(value = "/getAllProducts", method = RequestMethod.GET)
 	public Product[] getProduct() {
 
-		ResponseEntity<Product[]> response = restTemplate.getForEntity("http://localhost:9002/product/user/getAll",
+		ResponseEntity<Product[]> response = restTemplate.getForEntity("http://product-managment/product/user/getAll",
 				Product[].class);
 
 		return response.getBody();
@@ -60,7 +60,7 @@ public class WebController {
 	public Product[] getBycategory(@PathVariable("category") String category) {
 
 		ResponseEntity<Product[]> response = restTemplate
-				.getForEntity("http://localhost:9002/product/user/getByCategory/" + category, Product[].class);
+				.getForEntity("http://product-managment/product/user/getByCategory/" + category, Product[].class);
 		return response.getBody();
 
 	}
@@ -70,7 +70,7 @@ public class WebController {
 	public Product[] getByType(@PathVariable("type") String type) {
 
 		ResponseEntity<Product[]> response = restTemplate
-				.getForEntity("http://localhost:9002/product/user/getByType/" + type, Product[].class);
+				.getForEntity("http://product-managment/product/user/getByType/" + type, Product[].class);
 		return response.getBody();
 
 	}
@@ -79,7 +79,7 @@ public class WebController {
 	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
 	public User getByUsername(@PathVariable("username") String username) {
 
-		ResponseEntity<User> response = restTemplate.getForEntity("http://localhost:9001/user/" + username, User.class);
+		ResponseEntity<User> response = restTemplate.getForEntity("http://user-managment/user/" + username, User.class);
 		return response.getBody();
 
 	}
@@ -92,7 +92,7 @@ public class WebController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<User> entity = new HttpEntity<User>(user, headers);
-		return restTemplate.exchange("http://localhost:9001/user/register", HttpMethod.POST, entity, User.class);
+		return restTemplate.exchange("http://user-managment/user/register", HttpMethod.POST, entity, User.class);
 
 	}
 
@@ -104,7 +104,7 @@ public class WebController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<User> entity = new HttpEntity<User>(user, headers);
-		return restTemplate.exchange("http://localhost:9001/user/update/" + username, HttpMethod.PUT, entity,
+		return restTemplate.exchange("http://user-managment/user/update/" + username, HttpMethod.PUT, entity,
 				User.class);
 
 	}
@@ -118,7 +118,7 @@ public class WebController {
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<User> entity = new HttpEntity<User>(headers);
 		return restTemplate
-				.exchange("http://localhost:9001/user/delete/" + username, HttpMethod.DELETE, entity, String.class)
+				.exchange("http://user-managment/user/delete/" + username, HttpMethod.DELETE, entity, String.class)
 				.getBody();
 	}
 
@@ -129,7 +129,7 @@ public class WebController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Cart> entity = new HttpEntity<Cart>(headers);
-		return restTemplate.exchange("http://localhost:9003/cart/getcart/" + cartId, HttpMethod.GET, entity,
+		return restTemplate.exchange("http://cart-managment/cart/getcart/" + cartId, HttpMethod.GET, entity,
 				Cart.class);
 
 	}
@@ -138,7 +138,7 @@ public class WebController {
 	@RequestMapping(value = "/additem/{cartId}/{productId}", method = RequestMethod.POST)
 	public ResponseEntity<Cart> addCart(@RequestBody Item item, @PathVariable("cartId") String cartId,
 			@PathVariable("productId") String productId) {
-		CartProduct product = restTemplate.getForObject("http://localhost:9002/product/admin/getById/" + productId,
+		CartProduct product = restTemplate.getForObject("http://product-managment/product/admin/getById/" + productId,
 				CartProduct.class);
 		if (product != null) {
 			item.setProduct(product);
@@ -146,7 +146,7 @@ public class WebController {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 			HttpEntity<Item> entity = new HttpEntity<Item>(item, headers);
-			return restTemplate.exchange("http://localhost:9003/cart/additem/" + cartId, HttpMethod.POST, entity,
+			return restTemplate.exchange("http://cart-managment/cart/additem/" + cartId, HttpMethod.POST, entity,
 					Cart.class);
 		}
 		return null;
@@ -161,7 +161,7 @@ public class WebController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Cart> entity = new HttpEntity<Cart>(headers);
-		return restTemplate.exchange("http://localhost:9003/cart/deleteitem/" + cartId + "/" + productId,
+		return restTemplate.exchange("http://cart-managment/cart/deleteitem/" + cartId + "/" + productId,
 				HttpMethod.DELETE, entity, Cart.class);
 
 	}
@@ -173,7 +173,7 @@ public class WebController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Cart> entity = new HttpEntity<Cart>(headers);
-		return restTemplate.exchange("http://localhost:9003/cart/deletecart/" + cartId, HttpMethod.DELETE, entity,
+		return restTemplate.exchange("http://cart-managment/cart/deletecart/" + cartId, HttpMethod.DELETE, entity,
 				Cart.class);
 
 	}
@@ -182,7 +182,7 @@ public class WebController {
 	@RequestMapping(value = "/updateitem/{cartId}/{productId}", method = RequestMethod.PUT)
 	public ResponseEntity<Cart> updateCart(@PathVariable("cartId") String cartId, @RequestBody Item item,
 			@PathVariable("productId") String productId) {
-		CartProduct product = restTemplate.getForObject("http://localhost:9002/product/admin/getById/" + productId,
+		CartProduct product = restTemplate.getForObject("http://product-managment/product/admin/getById/" + productId,
 				CartProduct.class);
 		if (product != null) {
 			item.setProduct(product);
@@ -190,7 +190,7 @@ public class WebController {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 			HttpEntity<Item> entity = new HttpEntity<Item>(item, headers);
-			return restTemplate.exchange("http://localhost:9003/cart/updateitem/" + cartId, HttpMethod.PUT, entity,
+			return restTemplate.exchange("http://cart-managment/cart/updateitem/" + cartId, HttpMethod.PUT, entity,
 					Cart.class);
 		}
 		return null;
@@ -203,7 +203,7 @@ public class WebController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Order> entity = new HttpEntity<Order>(headers);
-		return restTemplate.exchange("http://localhost:9004/order/addOrder/" + customerId, HttpMethod.POST, entity,
+		return restTemplate.exchange("http://order-managment/order/addOrder/" + customerId, HttpMethod.POST, entity,
 				Order.class);
 
 	}
@@ -220,7 +220,7 @@ public class WebController {
 		 * HttpMethod.GET, entity, Order.class);
 		 */
 		ResponseEntity<Order[]> response = restTemplate
-				.getForEntity("http://localhost:9004/order/getOrder/" + customerId, Order[].class);
+				.getForEntity("http://order-managment/order/getOrder/" + customerId, Order[].class);
 		return response.getBody();
 
 	}
@@ -230,7 +230,7 @@ public class WebController {
 	public Order[] getOrderByDate(@PathVariable("customerId") String customerId) {
 
 		ResponseEntity<Order[]> response = restTemplate
-				.getForEntity("http://localhost:9004/order/getTodaysOrders/" + customerId, Order[].class);
+				.getForEntity("http://order-managment/order/getTodaysOrders/" + customerId, Order[].class);
 		return response.getBody();
 
 	}
@@ -240,7 +240,7 @@ public class WebController {
 	public Order[] getByOrderId(@PathVariable("orderId") String orderId) {
 
 		ResponseEntity<Order[]> response = restTemplate
-				.getForEntity("http://localhost:9004/order/getByOrderId/" + orderId, Order[].class);
+				.getForEntity("http://order-managment/order/getByOrderId/" + orderId, Order[].class);
 		return response.getBody();
 
 	}
@@ -249,7 +249,7 @@ public class WebController {
 	@RequestMapping(value = "/deleteOrder/{orderId}", method = RequestMethod.DELETE)
 	public String deleteOrder(@PathVariable("orderId") String orderId) {
 
-		restTemplate.exchange("http://localhost:9004/order/deleteOrder/" + orderId, HttpMethod.DELETE, null,
+		restTemplate.exchange("http://order-managment/order/deleteOrder/" + orderId, HttpMethod.DELETE, null,
 				String.class);
 
 		return orderId + " deleted";
