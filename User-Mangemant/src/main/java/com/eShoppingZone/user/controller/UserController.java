@@ -63,8 +63,8 @@ public class UserController {
 
 		User userData = userService.getByUserName(username);
 		if (userData != null) {
-			User user2 = user;
-			return new ResponseEntity<>(userService.createUser(user2), HttpStatus.OK);
+			User user2 = userService.createUser(user);
+			return new ResponseEntity<>(user2, HttpStatus.CREATED);
 		} else {
 			throw new UserNotFound(username + " not found ");
 		}

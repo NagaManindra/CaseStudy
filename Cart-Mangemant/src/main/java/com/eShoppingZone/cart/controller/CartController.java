@@ -30,6 +30,7 @@ public class CartController {
 	public ResponseEntity<?> addItemToCart(@RequestBody Item item, @PathVariable("cartId") String cartId) {
 		try {
 			Cart cart = cartService.getCart(cartId);
+
 			if (cart != null) {
 				List<Item> items = cart.getItems();
 				for (Item value : items) {
@@ -58,6 +59,29 @@ public class CartController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		/*
+		 * try { Cart cart = cartService.getCart(cartId); Product product =
+		 * restTemplate.getForObject("http://localhost:9002/product/admin/getById/" +
+		 * productId, Product.class); if (cart != null) { item.setProduct(product);
+		 * List<Item> items = cart.getItems(); for (Item value : items) { if
+		 * (value.getProduct().getProductId().equals(item.getProduct().getProductId()))
+		 * { return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED); } }
+		 * items.add(item); cart.setItems(items);
+		 * cart.setTotalPrice(cart.getTotalPrice() + item.getProduct().getPrice() *
+		 * item.getQuantity());
+		 * 
+		 * } else { List<Item> items = new ArrayList<>(); items.add(item);
+		 * item.setProduct(product); cart = new Cart(); cart.setCartId(cartId);
+		 * cart.setItems(items); cart.setTotalPrice(item.getProduct().getPrice() *
+		 * item.getQuantity()); }
+		 * 
+		 * Cart updatedCart = cartService.createCart(cart);
+		 * 
+		 * return new ResponseEntity<>(updatedCart, HttpStatus.CREATED);
+		 * 
+		 * } catch (Exception e) { return new ResponseEntity<>(null,
+		 * HttpStatus.INTERNAL_SERVER_ERROR); }
+		 */
 	}
 
 	// Get Cart By User Id
@@ -85,7 +109,7 @@ public class CartController {
 		List<Item> items = cart.getItems();
 
 		Item previousItem = new Item();
-
+		double price;
 		for (Item value : items) {
 			if (value.getProduct().getProductId().equals(item.getProduct().getProductId())) {
 
@@ -98,11 +122,16 @@ public class CartController {
 		}
 
 		cart.setItems(items);
+		if (previousItem.getQuantity() < item.getQuantity()) {
+			price = cart.getTotalPrice() + ((item.getProduct().getPrice() * item.getQuantity())
+					- previousItem.getProduct().getPrice() * previousItem.getQuantity());
+			cart.setTotalPrice(price);
+		} else {
+			price = cart.getTotalPrice() - (previousItem.getProduct().getPrice() * previousItem.getQuantity()
+					- item.getProduct().getPrice() * item.getQuantity());
+			cart.setTotalPrice(price);
+		}
 
-		double price = cart.getTotalPrice() - (previousItem.getProduct().getPrice() * previousItem.getQuantity())
-				+ (item.getProduct().getPrice() * item.getQuantity());
-
-		cart.setTotalPrice(price);
 		Cart updatedCart = cartService.updateCart(cart);
 
 		return new ResponseEntity<>(updatedCart, HttpStatus.OK);
@@ -111,13 +140,15 @@ public class CartController {
 
 	// Delete Item from Cart
 
-	@DeleteMapping("/deleteitem/{cartId}")
-	public ResponseEntity<?> deleteItemFromCart(@RequestBody Item item, @PathVariable("cartId") String cartId) {
+	@DeleteMapping("/deleteitem/{cartId}/{productId}")
+	public ResponseEntity<?> deleteItemFromCart(@PathVariable("productId") String productId,
+			@PathVariable("cartId") String cartId) {
 		try {
 			Cart cart = this.cartService.getCart(cartId);
 			List<Item> items = cart.getItems();
-
-			items.removeIf(x -> x.getProduct().getProductId().equals(item.getProduct().getProductId()));
+			Item item = items.stream().filter(x -> x.getProduct().getProductId().equals(productId)).findAny()
+					.orElse(null);
+			items.removeIf(x -> x.getProduct().getProductId().equals(productId));
 
 			cart.setItems(items);
 			cart.setTotalPrice(cart.getTotalPrice() - item.getProduct().getPrice() * item.getQuantity());

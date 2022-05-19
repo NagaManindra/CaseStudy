@@ -11,6 +11,11 @@ public class Item {
 		super();
 	}
 
+	public Item(int quantity) {
+		super();
+		this.quantity = quantity;
+	}
+
 	public Item(Product product, int quantity) {
 		super();
 		this.product = product;
