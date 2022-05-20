@@ -7,8 +7,13 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+
 @SpringBootApplication
 @EnableEurekaClient
+@OpenAPIDefinition(info = @Info(title = "Web API", description = "Website Management"))
+
 public class WebManagmentApplication {
 	@Bean
 	@LoadBalanced
