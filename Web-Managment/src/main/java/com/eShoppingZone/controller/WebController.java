@@ -8,11 +8,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.eShoppingZone.model.Cart;
@@ -20,9 +21,9 @@ import com.eShoppingZone.model.CartProduct;
 import com.eShoppingZone.model.Item;
 import com.eShoppingZone.model.Order;
 import com.eShoppingZone.model.Product;
-import com.eShoppingZone.model.User;
+import com.eShoppingZone.model.Users;
 
-@RestController
+@Controller
 @RequestMapping("/web")
 public class WebController {
 
@@ -47,12 +48,13 @@ public class WebController {
 
 	// Product get all
 	@RequestMapping(value = "/getAllProducts", method = RequestMethod.GET)
-	public Product[] getProduct() {
+	public String getProduct(Model model) {
 
 		ResponseEntity<Product[]> response = restTemplate.getForEntity("http://product-managment/product/user/getAll",
 				Product[].class);
+		model.addAttribute("list", response.getBody());
 
-		return response.getBody();
+		return "home";
 	}
 
 	// Product get by category
@@ -77,35 +79,35 @@ public class WebController {
 
 	// User get by username
 	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
-	public User getByUsername(@PathVariable("username") String username) {
+	public Users getByUsername(@PathVariable("username") String username) {
 
-		ResponseEntity<User> response = restTemplate.getForEntity("http://user-managment/user/" + username, User.class);
-		return response.getBody();
+		Users response = restTemplate.getForObject("http://user-managment/user/" + username, Users.class);
+		return response;
 
 	}
 
 	// User register
 	@RequestMapping(value = "/user/register", method = RequestMethod.POST)
-	public ResponseEntity<User> userRegister(@RequestBody User user) {
+	public ResponseEntity<Users> userRegister(@RequestBody Users user) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		HttpEntity<User> entity = new HttpEntity<User>(user, headers);
-		return restTemplate.exchange("http://user-managment/user/register", HttpMethod.POST, entity, User.class);
+		HttpEntity<Users> entity = new HttpEntity<Users>(user, headers);
+		return restTemplate.exchange("http://user-managment/user/register", HttpMethod.POST, entity, Users.class);
 
 	}
 
 	// User update
 	@RequestMapping(value = "/user/update/{username}", method = RequestMethod.PUT)
-	public ResponseEntity<User> userUpdate(@PathVariable("username") String username, @RequestBody User user) {
+	public ResponseEntity<Users> userUpdate(@PathVariable("username") String username, @RequestBody Users user) {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		HttpEntity<User> entity = new HttpEntity<User>(user, headers);
+		HttpEntity<Users> entity = new HttpEntity<Users>(user, headers);
 		return restTemplate.exchange("http://user-managment/user/update/" + username, HttpMethod.PUT, entity,
-				User.class);
+				Users.class);
 
 	}
 
@@ -116,7 +118,7 @@ public class WebController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		HttpEntity<User> entity = new HttpEntity<User>(headers);
+		HttpEntity<Users> entity = new HttpEntity<Users>(headers);
 		return restTemplate
 				.exchange("http://user-managment/user/delete/" + username, HttpMethod.DELETE, entity, String.class)
 				.getBody();

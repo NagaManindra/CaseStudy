@@ -3,7 +3,6 @@ package com.eShoppingZone.user.repo;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.eShoppingZone.user.model.User;
@@ -13,7 +12,6 @@ public interface UserRepo extends MongoRepository<User, String> {
 
 	List<User> findByFullName(String fullName);
 
-	@Query("{username:'?0'}")
 	User findByUserName(String userName);
 
 	User findByEmail(String username);

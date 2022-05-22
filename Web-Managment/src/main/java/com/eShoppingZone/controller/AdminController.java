@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.eShoppingZone.model.Order;
 import com.eShoppingZone.model.Product;
-import com.eShoppingZone.model.User;
+import com.eShoppingZone.model.Users;
 
 @RestController
 @RequestMapping("/admin")
@@ -28,9 +28,9 @@ public class AdminController {
 
 	// User get all users
 	@RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
-	public User[] getAllUsers() {
+	public Users[] getAllUsers() {
 
-		ResponseEntity<User[]> response = restTemplate.getForEntity("http://user-managment/user/getAll", User[].class);
+		ResponseEntity<Users[]> response = restTemplate.getForEntity("http://user-managment/user/getAll", Users[].class);
 		return response.getBody();
 
 	}
