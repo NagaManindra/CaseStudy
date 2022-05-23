@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head> 
+<link rel="stylesheet" th:href="@{/css/home.css}"/>
+<link rel="stylesheet" th:href="@{/css/userDetail.css}"/>
+
+
+<title>E Shopping Zone</title>
+</head>
+    
+<body >
+    <div class="fixed-header">
+        <div class="container">
+            
+            <nav>
+                <a> <span class="logo"> E-ShoppingZone</span></a>
+                <a href="/web/getAllProducts">Home</a>
+                <a href="#">About</a>
+                <a href="#">Products</a>
+                <a href="#">Services</a>
+                <a th:text="${details}" href="#">login</a>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="userDetails">
+					<div class="user">
+						<h4 class="Name" th:text="${user.fullName}"></h4>
+						<div class="details">
+							<h5>Personal Details</h5>
+							<hr>
+							<div class="details1">
+								<h6 class="userName" th:text="'Username : '+${user.userName}">userName</h6>
+								<h6 class="email" th:text="'Email : '+${user.email}">userName</h6>
+								<h6 class="gender" th:text="'Gender : '+${user.gender}">userName</h6>
+								<h6 class="dob" th:text="'Date of Birth : '+${user.dob}">userName</h6>
+								<h6 class="role" th:text="'Role : '+${user.role}">userName</h6>
+								<h6 class="mobile_no" th:text="'Number : '+${user.mobile_no}">userName</h6>
+							</div>
+						</div>
+						<div class="address">
+						<h5>Address</h5>
+						<hr>
+							<div class="address1">
+								<h6 class="house_no" th:text="'House No : '+${user.address.house_no}">userName</h6>
+								<h6 class="street_name" th:text="'Street : '+${user.address.street_name}">userName</h6>
+								<h6 class="colony_name" th:text="'Colony : '+${user.address.colony_name}">userName</h6>
+								<h6 class="city" th:text="'City : '+${user.address.city}">userName</h6>
+								<h6 class="state" th:text="'State : '+${user.address.state}">userName</h6>
+								<h6 class="pincode" th:text="'Pincode : '+${user.address.pincode}">userName</h6>
+							</div>
+						</div>
+						<a class="add" th:href="'/web/update/'+${details}">Edit</a>
+					</div>
+			</div>    
+    <div class="fixed-footer">
+        <div class="container">Copyright &copy; 2016 Your Company</div>        
+    </div>
+</body>
+</html>

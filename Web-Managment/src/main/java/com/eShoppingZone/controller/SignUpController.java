@@ -2,8 +2,6 @@ package com.eShoppingZone.controller;
 
 import java.util.Arrays;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,7 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
@@ -61,19 +61,41 @@ public class SignUpController {
 
 	// User register
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String userRegister(@Valid @ModelAttribute("user") Users user, BindingResult result) {
+	public String userRegister(@Validated @ModelAttribute(value = "user") Users user, BindingResult result,
+			Model model) {
 
 		if (result.hasErrors()) {
+			model.addAttribute("user", user);
 			return "signUp";
 		}
+		Users response = restTemplate.getForObject("http://user-managment/user/" + user.getUserName(), Users.class);
 		HttpHeaders headers = new HttpHeaders();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Users> entity = new HttpEntity<Users>(user, headers);
-		restTemplate.exchange("http://user-managment/user/register", HttpMethod.POST, entity, Users.class);
+		if (response == null) {
+			restTemplate.exchange("http://user-managment/user/register", HttpMethod.POST, entity, Users.class);
+			return "success";
+		}
 
-		return "login";
+		model.addAttribute("error", "Username already exits");
+		model.addAttribute("user", user);
+		return "signUp";
+
+	}
+
+	// User update
+	@RequestMapping(value = "/user/update/{username}", method = RequestMethod.POST)
+	public String userUpdate(@PathVariable("username") String username, @ModelAttribute Users user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity<Users> entity = new HttpEntity<Users>(user, headers);
+		restTemplate.exchange("http://user-managment/user/update/" + username, HttpMethod.PUT, entity, Users.class);
+		return "redirect:/web/user/{username}";
 
 	}
 

@@ -1,9 +1,0 @@
-package com.eShoppingZone;
-
-import lombok.Getter;
-
-
-public class mm {
-
-	private String name;
-}

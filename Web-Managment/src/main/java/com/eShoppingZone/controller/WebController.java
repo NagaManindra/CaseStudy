@@ -8,12 +8,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.eShoppingZone.model.Cart;
@@ -46,14 +48,20 @@ public class WebController {
 
 	}
 
+	@RequestMapping(value = "/username", method = RequestMethod.GET)
+	@ResponseBody
+	public String currentUserName(Authentication authentication) {
+		return authentication.getName();
+	}
+
 	// Product get all
 	@RequestMapping(value = "/getAllProducts", method = RequestMethod.GET)
-	public String getProduct(Model model) {
+	public String getProduct(Model model, Authentication authentication) {
 
 		ResponseEntity<Product[]> response = restTemplate.getForEntity("http://product-managment/product/user/getAll",
 				Product[].class);
 		model.addAttribute("list", response.getBody());
-
+		model.addAttribute("details", authentication.getName());
 		return "home";
 	}
 
@@ -78,11 +86,20 @@ public class WebController {
 	}
 
 	// User get by username
-	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
 	public Users getByUsername(@PathVariable("username") String username) {
 
 		Users response = restTemplate.getForObject("http://user-managment/user/" + username, Users.class);
 		return response;
+
+	}
+
+	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
+	public String getByUser(@PathVariable("username") String username, Model model, Authentication authentication) {
+
+		Users response = restTemplate.getForObject("http://user-managment/user/" + username, Users.class);
+		model.addAttribute("user", response);
+		model.addAttribute("details", authentication.getName());
+		return "userDetails";
 
 	}
 
@@ -98,17 +115,12 @@ public class WebController {
 
 	}
 
-	// User update
-	@RequestMapping(value = "/user/update/{username}", method = RequestMethod.PUT)
-	public ResponseEntity<Users> userUpdate(@PathVariable("username") String username, @RequestBody Users user) {
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		HttpEntity<Users> entity = new HttpEntity<Users>(user, headers);
-		return restTemplate.exchange("http://user-managment/user/update/" + username, HttpMethod.PUT, entity,
-				Users.class);
-
+	@RequestMapping("/update/{username}")
+	public String update(@PathVariable("username") String username, Model model, Authentication authentication) {
+		Users response = restTemplate.getForObject("http://user-managment/user/" + username, Users.class);
+		model.addAttribute("user", response);
+		model.addAttribute("details", authentication.getName());
+		return "userUpdate";
 	}
 
 	// User delete

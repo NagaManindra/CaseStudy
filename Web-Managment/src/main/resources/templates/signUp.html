@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 	<link rel="stylesheet" th:href="@{/css/css/loginStyle.css}"/>
 </head>
@@ -13,23 +14,23 @@
     <hr>
 
     <label for="userName"><b>Username</b></label>
-    <input type="text" placeholder="Enter username" name="userName" required>
+    <input type="text" th:value="${user.userName}" placeholder="Enter username" name="userName" required>
     
     <label for="fullName"><b>Full-Name</b></label>
-    <input type="text" placeholder="Enter Full Name" name="fullName" required>
+    <input type="text" th:value="${user.fullName}" placeholder="Enter Full Name" name="fullName" required>
     
     <label for="email"><b>Email</b></label>
-    <input type="email" placeholder="abc@example.com" name="email" required>
+    <input type="email" th:value="${user.email}" placeholder="abc@example.com" name="email" required>
     
     <label for="gender"><b>Gender</b></label>
-    <select id="roleDropMenu" name="gender">
+    <select id="roleDropMenu" th:value="${user.gender}" name="gender">
       <option value="Male">male</option>
       <option value="Female">female</option>
       <option value="Other">other</option>      
     </select>
     <br>
     <label for="dob"><b>Date of Birth</b></label>
-    <input type="date" id="dob" placeholder="01/02/2001" required>
+    <input type="date" id="dob" th:value="${user.dob}" placeholder="01/02/2001" required>
     
     <label for="role"><b>Select role</b></label>&nbsp;&nbsp;&nbsp;&nbsp;
     <select id="roleDropMenu" name="role">
@@ -38,7 +39,7 @@
     </select>
 
 	<label for="mobile_no"><b>Mobile No</b></label>
-    <input type="text" placeholder="Enter number" name="mobile_no" required>
+    <input type="text" th:value="${user.mobile_no}" placeholder="Enter number" name="mobile_no" required>
     
     <label for="password"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="password" required>
@@ -46,22 +47,22 @@
     <p><b>Address</b></p>
     <hr>
     <label for="address.house_no"><b>House No</b></label>
-    <input type="text" placeholder="Enter house no" name="address.house_no" required>
+    <input type="text" th:value="${user.address.house_no}" placeholder="Enter house no" name="address.house_no" required>
     
     <label for="address.street_name"><b>Street</b></label>
-    <input type="text" placeholder="Enter street name" name="address.street_name" required>
+    <input type="text" th:value="${user.address.street_name}" placeholder="Enter street name" name="address.street_name" required>
     
     <label for="address.colony_name"><b>Colony</b></label>
-    <input type="text" placeholder="Enter Colony name" name="address.colony_name" required>
+    <input type="text" th:value="${user.address.colony_name}" placeholder="Enter Colony name" name="address.colony_name" required>
     
     <label for="address.city"><b>City</b></label>
-    <input type="text" placeholder="Enter city name" name="address.city" required>
+    <input type="text" th:value="${user.address.city}" placeholder="Enter city name" name="address.city" required>
     
     <label for="address.state"><b>State</b></label>
-    <input type="text" placeholder="Enter State name" name="address.state" required>
+    <input type="text" th:value="${user.address.state}" placeholder="Enter State name" name="address.state" required>
     
     <label for="address.pincode"><b>Pin Code</b></label>
-    <input type="text" placeholder="Enter pincode" name="address.pincode" required>
+    <input type="text" th:value="${user.address.pincode}" placeholder="Enter pincode" name="address.pincode" required>
     
     
 
