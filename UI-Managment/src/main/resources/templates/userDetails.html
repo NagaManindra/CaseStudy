@@ -15,7 +15,7 @@
             <nav>
                 <a> <span class="logo"> E-ShoppingZone</span></a>
                 <a href="/web/getAllProducts">Home</a>
-                <a href="#">About</a>
+                <a th:href="'/web/getcart/'+${details}">Cart</a>
                 <a href="#">Products</a>
                 <a href="#">Services</a>
                 <a th:text="${details}" href="#">login</a>

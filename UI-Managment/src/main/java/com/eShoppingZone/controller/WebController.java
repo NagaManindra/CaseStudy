@@ -25,6 +25,9 @@ import com.eShoppingZone.model.Order;
 import com.eShoppingZone.model.Product;
 import com.eShoppingZone.model.Users;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
 @Controller
 @RequestMapping("/web")
 public class WebController {
@@ -138,30 +141,36 @@ public class WebController {
 
 	// Cart get cart
 	@RequestMapping(value = "/getcart/{cartId}", method = RequestMethod.GET)
-	public ResponseEntity<Cart> getCart(@PathVariable("cartId") String cartId) {
+	public String getCart(@PathVariable("cartId") String cartId, Model model, Authentication authentication) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Cart> entity = new HttpEntity<Cart>(headers);
-		return restTemplate.exchange("http://cart-managment/cart/getcart/" + cartId, HttpMethod.GET, entity,
-				Cart.class);
+		ResponseEntity<Cart> cart = restTemplate.exchange("http://cart-managment/cart/getcart/" + cartId,
+				HttpMethod.GET, entity, Cart.class);
+		model.addAttribute("cart", cart.getBody());
+		model.addAttribute("details", authentication.getName());
+		return "cart";
 
 	}
 
 	// Cart add item
+	@Operation(summary = "Add Items to Cart")
 	@RequestMapping(value = "/additem/{cartId}/{productId}", method = RequestMethod.POST)
-	public ResponseEntity<Cart> addCart(@RequestBody Item item, @PathVariable("cartId") String cartId,
-			@PathVariable("productId") String productId) {
+	public String addCart(@Parameter(description = "Enter Cart Id") @PathVariable("cartId") String cartId,
+			@Parameter(description = "Enter product Id") @PathVariable("productId") String productId) {
 		CartProduct product = restTemplate.getForObject("http://product-managment/product/admin/getById/" + productId,
 				CartProduct.class);
+		Item item = new Item();
 		if (product != null) {
 			item.setProduct(product);
+			item.setQuantity(1);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 			HttpEntity<Item> entity = new HttpEntity<Item>(item, headers);
-			return restTemplate.exchange("http://cart-managment/cart/additem/" + cartId, HttpMethod.POST, entity,
-					Cart.class);
+			restTemplate.exchange("http://cart-managment/cart/additem/" + cartId, HttpMethod.POST, entity, Cart.class);
+			return "redirect:/web/getAllProducts";
 		}
 		return null;
 
@@ -193,9 +202,10 @@ public class WebController {
 	}
 
 	// Cart update
-	@RequestMapping(value = "/updateitem/{cartId}/{productId}", method = RequestMethod.PUT)
-	public ResponseEntity<Cart> updateCart(@PathVariable("cartId") String cartId, @RequestBody Item item,
-			@PathVariable("productId") String productId) {
+	@RequestMapping(value = "/updateitem/{cartId}/{productId}", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateCart(@PathVariable("cartId") String cartId, Item item,
+			@PathVariable("productId") String productId, Authentication authentication) {
 		CartProduct product = restTemplate.getForObject("http://product-managment/product/admin/getById/" + productId,
 				CartProduct.class);
 		if (product != null) {
@@ -204,8 +214,9 @@ public class WebController {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 			HttpEntity<Item> entity = new HttpEntity<Item>(item, headers);
-			return restTemplate.exchange("http://cart-managment/cart/updateitem/" + cartId, HttpMethod.PUT, entity,
+			restTemplate.exchange("http://cart-managment/cart/updateitem/" + cartId, HttpMethod.PUT, entity,
 					Cart.class);
+			return "redirect:/web/getcart/" + authentication.getName();
 		}
 		return null;
 	}

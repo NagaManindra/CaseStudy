@@ -66,7 +66,6 @@ public class SignUpController {
 			Model model) {
 
 		if (result.hasErrors()) {
-			model.addAttribute("user", user);
 			return "signUp";
 		}
 		HttpHeaders headers = new HttpHeaders();

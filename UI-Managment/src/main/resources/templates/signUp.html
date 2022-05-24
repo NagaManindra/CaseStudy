@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<link rel="stylesheet" th:href="@{/css/css/loginStyle.css}"/>
 </head>
 <body>
     <h5 class="header" th:text="${error}">Default</h5>
 
-<form action="/signup" style="border:1px solid #ccc" class="center" method="POST" th:object="${user}"> 
+<form action="/signup" style="border:1px solid #ccc" class="center" method="post" th:object="${user}"> 
+<!-- <ul th:if="${#fields.hasErrors('*')}">
+        <li th:each="err : ${#fields.errors('*')}" th:text="${err}" th:class="error">Input is incorrect</li>
+    </ul> -->
   <div class="container">
     <h1 align="center">Sign Up</h1>
     <p align="center">Please fill in this form to create an account.</p>
@@ -15,6 +17,7 @@
 
     <label for="userName"><b>Username</b></label>
     <input type="text" placeholder="Enter username" name="userName" required>
+     <!-- <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" th:errorclass="error"></span>-->
     
     <label for="fullName"><b>Full-Name</b></label>
     <input type="text" placeholder="Enter Full Name" name="fullName" required>

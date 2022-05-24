@@ -15,7 +15,7 @@
             <nav>
                 <a> <span class="logo"> E-ShoppingZone</span></a>
                 <a href="getAllProducts">Home</a>
-                <a href="#">About</a>
+                <a th:href="'/web/getcart/'+${details}">Cart</a>
                 <a href="#">Products</a>
                 <a href="#">Services</a>
                 <a th:text="${details}" th:href="'user/'+${details}">login</a>
@@ -31,7 +31,12 @@
 						<h5 class="card-title" th:text="${list.productName}"></h5>
 						<h6 class="price" th:text="'$'+${list.price}">Price: </h6>
 						<h6 class="category" th:text="${list.productType}">Category:</h6>
-						<button class="add">Add to cart</button>
+						<div class="add">
+						<form method="post" th:action="'/web/additem/'+${details}+'/'+${list.productId}">
+							<button type="submit">Add to cart</button>
+						</form>
+						</div>
+						
 					</div>
 				</div>
 			</div>    

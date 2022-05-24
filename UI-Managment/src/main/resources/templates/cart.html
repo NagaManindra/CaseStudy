@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head> 
+<link rel="stylesheet" th:href="@{/css/home.css}"/>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+  
+
+<title>E Shopping Zone</title>
+</head>
+    
+<body >
+    <div class="fixed-header">
+        <div class="container">
+            
+            <nav>
+                <a> <span class="logo"> E-ShoppingZone</span></a>
+                <a href="/web/getAllProducts">Home</a>
+                <a th:href="'/web/getcart/'+${details}">Cart</a>
+                <a href="#">Products</a>
+                <a href="#">Services</a>
+                <a th:text="${details}" th:href="'/web/user/'+${details}">login</a>
+            </nav>
+        </div>
+    </div>
+    <div class="head" th:object="${cart}">
+						<h3 th:text="'UserName : '+${cart.cartId}"></h3>
+						<h3 th:text="'Total Price : '+${cart.totalPrice}"></h3>
+				
+				
+    <div class="contant">
+    	
+				<div class="card" th:each="list : ${cart.items}">
+					
+					
+					<div class="cardBody">
+						<h5 class="card-title" th:text="${list.product.productName}"></h5>
+						<h6 class="price" th:text="'$'+${list.Product.price}">Price: </h6>
+						<form method="post" th:action="'/web/updateitem/'+${details}+'/'+${list.product.productId}">
+						<h6 class="category">Quantity : 
+						
+							<input class="category" th:value="${list.quantity}" name="quantity">
+							<button type="submit">Set</button>
+						</h6>
+						</form>
+						<h6 class="category" th:text="'Quantity : '+${list.quantity}">Category:</h6>
+						<h6 class="category" th:text="'SubTotal : '+${list.subTotal}">Category:</h6>						
+						<div class="add">
+						
+						</div>
+						
+					</div>
+				</div>
+				</div>
+			</div>    
+    <div class="fixed-footer">
+        <div class="container">Copyright &copy; 2016 Your Company</div>        
+    </div>
+</body>
+</html>
