@@ -1,5 +1,0 @@
-package com.eShoppingZone.user.exception;
-
-public class UserNotFound {
-
-}

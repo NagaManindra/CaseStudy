@@ -17,7 +17,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.eShoppingZone.model.Order;
 import com.eShoppingZone.model.Product;
-import com.eShoppingZone.model.Users;
+import com.eShoppingZone.model.User;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequestMapping("/admin")
@@ -27,18 +30,20 @@ public class AdminController {
 	private RestTemplate restTemplate;
 
 	// User get all users
+	@Operation(summary = "Get all registered Users")
 	@RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
-	public Users[] getAllUsers() {
+	public User[] getAllUsers() {
 
-		ResponseEntity<Users[]> response = restTemplate.getForEntity("http://user-managment/user/getAll", Users[].class);
+		ResponseEntity<User[]> response = restTemplate.getForEntity("http://user-managment/user/getAll", User[].class);
 		return response.getBody();
 
 	}
 
 	// Product get by name
-
+	@Operation(summary = "Get User by userName")
 	@RequestMapping(value = "/findByProductName/{productName}", method = RequestMethod.GET)
-	public Product[] getAllProducts(@PathVariable("productName") String productName) {
+	public Product[] getAllProducts(
+			@Parameter(description = "Enter Product Name") @PathVariable("productName") String productName) {
 		/*
 		 * HttpHeaders headers = new HttpHeaders();
 		 * headers.setContentType(MediaType.APPLICATION_JSON);
@@ -52,6 +57,7 @@ public class AdminController {
 	}
 
 	// Product get all
+	@Operation(summary = "To Display All Products")
 	@RequestMapping(value = "/getAllProducts", method = RequestMethod.GET)
 	public Product[] getProduct() {
 
@@ -62,8 +68,10 @@ public class AdminController {
 	}
 
 	// Product get by category
+	@Operation(summary = "Get Products by Category")
 	@RequestMapping(value = "/getByCategory/{category}", method = RequestMethod.GET)
-	public Product[] getBycategory(@PathVariable("category") String category) {
+	public Product[] getBycategory(
+			@Parameter(description = "Enter Product Category") @PathVariable("category") String category) {
 
 		ResponseEntity<Product[]> response = restTemplate
 				.getForEntity("http://product-managment/product/user/getByCategory/" + category, Product[].class);
@@ -72,8 +80,9 @@ public class AdminController {
 	}
 
 	// Product get by type
+	@Operation(summary = "Get Products by Type")
 	@RequestMapping(value = "/getByType/{type}", method = RequestMethod.GET)
-	public Product[] getByType(@PathVariable("type") String type) {
+	public Product[] getByType(@Parameter(description = "Enter Product Type") @PathVariable("type") String type) {
 
 		ResponseEntity<Product[]> response = restTemplate
 				.getForEntity("http://product-managment/product/user/getByType/" + type, Product[].class);
@@ -82,8 +91,10 @@ public class AdminController {
 	}
 
 	// Product add
+	@Operation(summary = "Add Product")
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
-	public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+	public ResponseEntity<Product> addProduct(
+			@Parameter(description = "Enter Product Details") @RequestBody Product product) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -93,9 +104,11 @@ public class AdminController {
 	}
 
 	// Product edit product
+	@Operation(summary = "Edit Product")
 	@RequestMapping(value = "/update/{productId}", method = RequestMethod.PUT)
-	public ResponseEntity<Product> updateProduct(@PathVariable("productId") String productId,
-			@RequestBody Product product) {
+	public ResponseEntity<Product> updateProduct(
+			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId,
+			@Parameter(description = "Enter Update Details") @RequestBody Product product) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -105,8 +118,10 @@ public class AdminController {
 	}
 
 	// Product delete
+	@Operation(summary = "Delete Product")
 	@RequestMapping(value = "/delete/{productId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Product> deleteProduct(@PathVariable("productId") String productId,
+	public ResponseEntity<Product> deleteProduct(
+			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId,
 			@RequestBody Product product) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -117,8 +132,9 @@ public class AdminController {
 	}
 
 	// Order update
+	@Operation(summary = "Update Orders")
 	@RequestMapping(value = "/updateOrder/{orderId}", method = RequestMethod.PUT)
-	public Order getByOrderId(@PathVariable("orderId") String orderId) {
+	public Order getByOrderId(@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
 
 		ResponseEntity<Order> response = restTemplate
 				.getForEntity("http://order-managment/order/getByOrderId/" + orderId, Order.class);

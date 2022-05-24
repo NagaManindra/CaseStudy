@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.eShoppingZone.model.Users;
+import com.eShoppingZone.model.User;
 
 @Repository
-public interface UserRepo extends MongoRepository<Users, String> {
+public interface UserRepo extends MongoRepository<User, String> {
 
-	List<Users> findByFullName(String fullName);
+	List<User> findByFullName(String fullName);
 
-	Users findByUserName(String userName);
+	User findByUserName(String userName);
 
-	Users findByEmail(String username);
+	User findByEmail(String username);
 
-	List<Users> findByRole(String role);
+	List<User> findByRole(String role);
 
 }
