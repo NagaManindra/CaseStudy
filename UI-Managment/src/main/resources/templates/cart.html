@@ -16,7 +16,7 @@
                 <a> <span class="logo"> E-ShoppingZone</span></a>
                 <a href="/web/getAllProducts">Home</a>
                 <a th:href="'/web/getcart/'+${details}">Cart</a>
-                <a href="#">Products</a>
+                <a th:href="'/web/getTodaysOrders/'+${details}">Order</a>
                 <a href="#">Services</a>
                 <a th:text="${details}" th:href="'/web/user/'+${details}">login</a>
             </nav>
@@ -27,31 +27,37 @@
 						<h3 th:text="'Total Price : '+${cart.totalPrice}"></h3>
 				
 				
-    <div class="contant">
-    	
-				<div class="card" th:each="list : ${cart.items}">
+    	<div class="contant">
+    		
+			<div class="card" th:each="list : ${cart.items}">
+				
+				
+				<div class="cardBody">
+					<h5 class="card-title" th:text="${list.product.productName}"></h5>
+					<h6 class="price" th:text="'$'+${list.Product.price}">Price: </h6>
+					<form method="post" th:action="'/web/updateitem/'+${details}+'/'+${list.product.productId}">
+					<h6 class="category">Quantity : 
 					
-					
-					<div class="cardBody">
-						<h5 class="card-title" th:text="${list.product.productName}"></h5>
-						<h6 class="price" th:text="'$'+${list.Product.price}">Price: </h6>
-						<form method="post" th:action="'/web/updateitem/'+${details}+'/'+${list.product.productId}">
-						<h6 class="category">Quantity : 
-						
-							<input class="category" th:value="${list.quantity}" name="quantity">
-							<button type="submit">Set</button>
-						</h6>
-						</form>
-						<h6 class="category" th:text="'Quantity : '+${list.quantity}">Category:</h6>
-						<h6 class="category" th:text="'SubTotal : '+${list.subTotal}">Category:</h6>						
-						<div class="add">
-						
-						</div>
-						
+						<input class="category" th:value="${list.quantity}" name="quantity">
+						<button type="submit">Set</button>
+					</h6>
+					</form>
+					<h6 class="category" th:text="'SubTotal : '+${list.subTotal}">Category:</h6><br>						
+					<div class="remove1">
+						<a class="remove" th:href="'/web/deleteItem/'+${details}+'/'+${list.product.productId}">Remove</a>
 					</div>
+					
 				</div>
-				</div>
-			</div>    
+			</div>
+		</div>
+		<br>
+		<br>
+		<div class="remove1">
+			<a class="remove" th:href="'/web/addOrder/'+${details}">Order</a>
+		
+			<a class="remove" th:href="'/web/deleteCart/'+${details}">Clear</a>
+		</div>
+	</div>    
     <div class="fixed-footer">
         <div class="container">Copyright &copy; 2016 Your Company</div>        
     </div>

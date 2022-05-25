@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -177,38 +178,40 @@ public class WebController {
 	}
 
 	// Cart delete item
-	@RequestMapping(value = "/deleteItem/{cartId}/{productId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Cart> deleteCartItem(@PathVariable("cartId") String cartId,
-			@PathVariable("productId") String productId) {
+	@RequestMapping(value = "/deleteItem/{cartId}/{productId}", method = RequestMethod.GET)
+	public String deleteCartItem(@PathVariable("cartId") String cartId, @PathVariable("productId") String productId,
+			Authentication authentication) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Cart> entity = new HttpEntity<Cart>(headers);
-		return restTemplate.exchange("http://cart-managment/cart/deleteitem/" + cartId + "/" + productId,
-				HttpMethod.DELETE, entity, Cart.class);
+		restTemplate.exchange("http://cart-managment/cart/deleteitem/" + cartId + "/" + productId, HttpMethod.DELETE,
+				entity, Cart.class);
+		return "redirect:/web/getcart/" + authentication.getName();
 
 	}
 
 	// Cart delete all
-	@RequestMapping(value = "/deleteCart/{cartId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Cart> deleteCart(@PathVariable("cartId") String cartId) {
+	@RequestMapping(value = "/deleteCart/{cartId}", method = RequestMethod.GET)
+	public String deleteCart(@PathVariable("cartId") String cartId, Authentication authentication) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Cart> entity = new HttpEntity<Cart>(headers);
-		return restTemplate.exchange("http://cart-managment/cart/deletecart/" + cartId, HttpMethod.DELETE, entity,
-				Cart.class);
+		restTemplate.exchange("http://cart-managment/cart/deletecart/" + cartId, HttpMethod.DELETE, entity, Cart.class);
+		return "redirect:/web/getcart/" + authentication.getName();
 
 	}
 
 	// Cart update
 	@RequestMapping(value = "/updateitem/{cartId}/{productId}", method = RequestMethod.POST)
-	@ResponseBody
-	public String updateCart(@PathVariable("cartId") String cartId, Item item,
+
+	public String updateCart(@PathVariable("cartId") String cartId, @RequestParam("quantity") int quantity,
 			@PathVariable("productId") String productId, Authentication authentication) {
 		CartProduct product = restTemplate.getForObject("http://product-managment/product/admin/getById/" + productId,
 				CartProduct.class);
 		if (product != null) {
+			Item item = new Item(quantity);
 			item.setProduct(product);
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -222,20 +225,24 @@ public class WebController {
 	}
 
 	// Order create
-	@RequestMapping(value = "/addOrder/{customerId}", method = RequestMethod.POST)
-	public ResponseEntity<Order> addOrder(@PathVariable("customerId") String customerId) {
+	@RequestMapping(value = "/addOrder/{customerId}", method = RequestMethod.GET)
+	public String addOrder(@PathVariable("customerId") String customerId, Authentication authentication) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Order> entity = new HttpEntity<Order>(headers);
-		return restTemplate.exchange("http://order-managment/order/addOrder/" + customerId, HttpMethod.POST, entity,
+
+		restTemplate.exchange("http://order-managment/order/addOrder/" + customerId, HttpMethod.POST, entity,
 				Order.class);
+		restTemplate.exchange("http://cart-managment/cart/deletecart/" + customerId, HttpMethod.DELETE, entity,
+				Cart.class);
+		return "redirect:/web/getTodaysOrders/" + authentication.getName();
 
 	}
 
 	// Order get all
 	@RequestMapping(value = "/getOrder/{customerId}", method = RequestMethod.GET)
-	public Order[] getOrder(@PathVariable("customerId") String customerId) {
+	public String getOrder(@PathVariable("customerId") String customerId, Model model, Authentication authentication) {
 		/*
 		 * HttpHeaders headers = new HttpHeaders();
 		 * headers.setContentType(MediaType.APPLICATION_JSON);
@@ -246,17 +253,22 @@ public class WebController {
 		 */
 		ResponseEntity<Order[]> response = restTemplate
 				.getForEntity("http://order-managment/order/getOrder/" + customerId, Order[].class);
-		return response.getBody();
+		model.addAttribute("order", response.getBody());
+		model.addAttribute("details", authentication.getName());
+		return "order";
 
 	}
 
 	// order get by current date
 	@RequestMapping(value = "/getTodaysOrders/{customerId}", method = RequestMethod.GET)
-	public Order[] getOrderByDate(@PathVariable("customerId") String customerId) {
+	public String getOrderByDate(@PathVariable("customerId") String customerId, Model model,
+			Authentication authentication) {
 
 		ResponseEntity<Order[]> response = restTemplate
 				.getForEntity("http://order-managment/order/getTodaysOrders/" + customerId, Order[].class);
-		return response.getBody();
+		model.addAttribute("order", response.getBody());
+		model.addAttribute("details", authentication.getName());
+		return "order";
 
 	}
 
@@ -283,9 +295,9 @@ public class WebController {
 	@RequestMapping(value = "/wallet")
 	public String wallet() {
 
-		restTemplate.exchange("http://localhost:9005/wallet/", HttpMethod.POST, null, String.class);
+		restTemplate.exchange("http://wallet-managment/", HttpMethod.POST, null, String.class);
 
-		return "deleted";
+		return "delete";
 	}
 
 }

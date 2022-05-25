@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head> 
+<link rel="stylesheet" th:href="@{/css/home.css}"/>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+  
+
+<title>E Shopping Zone</title>
+</head>
+    
+<body >
+    <div class="fixed-header">
+        <div class="container">
+            
+            <nav>
+                <a> <span class="logo"> E-ShoppingZone</span></a>
+                <a href="/web/getAllProducts">Home</a>
+                <a th:href="'/web/getcart/'+${details}">Cart</a>
+                <a th:href="'/web/getTodaysOrders/'+${details}">Order</a>
+                <a href="#">Services</a>
+                <a th:text="${details}" th:href="'/web/user/'+${details}">login</a>
+            </nav>
+        </div>
+    </div>
+    <div class="head" th:each="order: ${order}">
+						<h3 th:text="'OrderId : '+${order.orderId}"></h3>
+						<h3 th:text="'UserName : '+${order.customerId}"></h3>
+						<h3 th:text="'Order Date : '+${order.orderDate}"></h3>						
+						<h3 th:text="'Total Price : '+${order.totalPrice}"></h3>
+						<h3 th:text="'Order Status: '+${order.orderStatus}"></h3>
+				
+				
+    	<div class="contant">
+    		
+			<div class="card" th:each="list : ${order.items}">
+				
+				
+				<div class="cardBody">
+					<h5 class="card-title" th:text="${list.product.productName}"></h5>
+					<h6 class="price" th:text="'$'+${list.Product.price}">Price: </h6>
+					
+					<h6 class="category" th:text="'Quantity : '+${list.quantity}">quantity</h6>
+					<h6 class="category" th:text="'SubTotal : '+${list.subTotal}">Category:</h6>					
+					
+					
+				</div>
+			</div>
+		</div>
+		
+	</div>   
+	<br>
+		<br>
+		<div class="remove1">
+			<a class="remove" th:href="'/web/getOrder/'+${details}">Previous Orders</a>
+		</div> 
+    <div class="fixed-footer">
+        <div class="container">Copyright &copy; 2016 Your Company</div>        
+    </div>
+</body>
+</html>

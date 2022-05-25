@@ -93,3 +93,15 @@ nav a{
     text-align: center;
 	
 }
+.remove{
+	background-color: #fc8874;
+	width: 40%;
+	text-align: center;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+   	border-radius: 25px;
+	color:black;
+	text-decoration: none;	
+}
