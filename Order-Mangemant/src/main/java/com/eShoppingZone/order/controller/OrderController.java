@@ -22,8 +22,11 @@ import com.eShoppingZone.order.model.Order;
 import com.eShoppingZone.order.model.User;
 import com.eShoppingZone.order.service.OrderService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/user")
 public class OrderController {
 
 	@Autowired
@@ -33,21 +36,30 @@ public class OrderController {
 	@Autowired
 	private CartFallBack cartFallBack;
 
+	// Order create
+	@Operation(summary = "To place Order")
 	@PostMapping("/addOrder/{customerId}")
-	public Order createOrder(@PathVariable("customerId") String customerId) {
+	public Order createOrder(
+			@Parameter(description = "Enter Customer Id") @PathVariable("customerId") String customerId) {
 		User user = userFallBack.getUserInfo(customerId);
 		Cart cart = cartFallBack.getCart(customerId);
 		return orderService.createOrder(new Order(customerId, LocalDate.now(), cart.getTotalPrice(), "Order Placed",
 				user.getAddress(), user.getMobile_no(), cart.getItems()));
 	}
 
+	// Order get all
+	@Operation(summary = "To get All customer Orders")
 	@GetMapping("/getOrder/{customerId}")
-	public List<Order> getAllOrders(@PathVariable("customerId") String customerId) {
+	public List<Order> getAllOrders(
+			@Parameter(description = "Enter Customer Id") @PathVariable("customerId") String customerId) {
 		return orderService.getByCustomerId(customerId);
 	}
 
+	// order get by current date
+	@Operation(summary = "To get Oder by Current Date")
 	@GetMapping("/getTodaysOrders/{customerId}")
-	public List<Order> getTodaysOrders(@PathVariable("customerId") String customerId) {
+	public List<Order> getTodaysOrders(
+			@Parameter(description = "Enter Customer Id") @PathVariable("customerId") String customerId) {
 		List<Order> list = orderService.getByCustomerId(customerId);
 		List<Order> newList = new ArrayList<>();
 		for (Order dateOrder : list) {
@@ -58,21 +70,29 @@ public class OrderController {
 		return newList;
 	}
 
+	// order get by customerId
+	@Operation(summary = "To get customer Orders")
 	@GetMapping("/getByOrderId/{orderId}")
-	public Order getOrder(@PathVariable("orderId") String orderId) {
+	public Order getOrder(@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
 		return orderService.getByOrderId(orderId);
 	}
 
+	// order Update by orderId
+	@Operation(summary = "To Update customer Orders")
 	@PutMapping("/updateOrder/{orderId}")
-	public ResponseEntity<?> updateOrder(@PathVariable("orderId") String orderId) {
+	public ResponseEntity<?> updateOrder(
+			@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
 		Order order = orderService.getByOrderId(orderId);
 		order.setOrderStatus("Order Accepted");
 		Order order2 = orderService.createOrder(order);
 		return new ResponseEntity<>(order2, HttpStatus.CREATED);
 	}
 
+	// order delete by customerId
+	@Operation(summary = "Delete Orders by CustomerId")
 	@DeleteMapping("/deleteOrder/{orderId}")
-	public ResponseEntity<?> deleteOrder(@PathVariable("orderId") String orderId) {
+	public ResponseEntity<?> deleteOrder(
+			@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
 		orderService.deleteOrder(orderId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

@@ -9,35 +9,51 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eShoppingZone.cart.fallback.ProductFallBack;
 import com.eShoppingZone.cart.model.Cart;
 import com.eShoppingZone.cart.model.Item;
+import com.eShoppingZone.cart.model.Product;
 import com.eShoppingZone.cart.service.CartService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
 @RestController
-@RequestMapping("cart")
+@RequestMapping("/user")
 public class CartController {
 
 	@Autowired
 	private CartService cartService;
 
-	@PostMapping("/additem/{cartId}")
-	public ResponseEntity<?> addItemToCart(@RequestBody Item item, @PathVariable("cartId") String cartId) {
+	@Autowired
+	private ProductFallBack productFallBack;
+
+	// Cart add item
+	@Operation(summary = "Add Items to Cart")
+	@RequestMapping(value = "/additem/{cartId}/{productId}", method = RequestMethod.POST)
+	public ResponseEntity<Cart> addCart(@Parameter(description = "Enter Cart Id") @PathVariable("cartId") String cartId,
+			@Parameter(description = "Enter product Id") @PathVariable("productId") String productId) {
+		Product product = productFallBack.getProduct(productId);
+		Item item = new Item();
+		item.setQuantity(1);
+		item.setProduct(product);
 		try {
 			Cart cart = cartService.getCart(cartId);
 
 			if (cart != null) {
 				List<Item> items = cart.getItems();
 				for (Item value : items) {
-					if (value.getProduct().getProductId().equals(item.getProduct().getProductId())) {
+					if (value.getProduct().getProductId().equals(product.getProductId())) {
 						return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
 					}
 				}
+
 				items.add(item);
 				cart.setItems(items);
 				cart.setTotalPrice(cart.getTotalPrice() + item.getProduct().getPrice() * item.getQuantity());
@@ -85,9 +101,10 @@ public class CartController {
 	}
 
 	// Get Cart By User Id
-
+	@Operation(summary = "Get Cart by cartId")
 	@GetMapping("/getcart/{cartId}")
-	public ResponseEntity<?> getCartByUserId(@PathVariable("cartId") String cartId) {
+	public ResponseEntity<?> getCartByUserId(
+			@Parameter(description = "Enter Cart Id") @PathVariable("cartId") String cartId) {
 		try {
 			Cart cart = this.cartService.getCart(cartId);
 			if (cart != null) {
@@ -101,17 +118,21 @@ public class CartController {
 	}
 
 	// Update Item in Cart
+	@Operation(summary = "Update Items in Cart")
+	@PutMapping("/updateitem/{cartId}/{productId}")
+	public ResponseEntity<?> updateItemInCart(
+			@Parameter(description = "Enter Cart Id") @PathVariable("cartId") String cartId,
+			@Parameter(description = "Enter Quantity") @RequestBody Item item,
+			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId) {
 
-	@PutMapping("/updateitem/{cartId}")
-	public ResponseEntity<?> updateItemInCart(@RequestBody Item item, @PathVariable("cartId") String cartId) {
-
+		Product product = productFallBack.getProduct(productId);
 		Cart cart = cartService.getCart(cartId);
 		List<Item> items = cart.getItems();
 
 		Item previousItem = new Item();
 		double price;
 		for (Item value : items) {
-			if (value.getProduct().getProductId().equals(item.getProduct().getProductId())) {
+			if (value.getProduct().getProductId().equals(product.getProductId())) {
 
 				previousItem.setProduct(value.getProduct());
 				previousItem.setQuantity(value.getQuantity());
@@ -139,10 +160,11 @@ public class CartController {
 	}
 
 	// Delete Item from Cart
-
+	@Operation(summary = "Delete Items in Cart")
 	@DeleteMapping("/deleteitem/{cartId}/{productId}")
-	public ResponseEntity<?> deleteItemFromCart(@PathVariable("productId") String productId,
-			@PathVariable("cartId") String cartId) {
+	public ResponseEntity<?> deleteItemFromCart(
+			@Parameter(description = "Enter Cart Id") @PathVariable("cartId") String cartId,
+			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId) {
 		try {
 			Cart cart = this.cartService.getCart(cartId);
 			List<Item> items = cart.getItems();
@@ -161,8 +183,11 @@ public class CartController {
 		}
 	}
 
+	// Cart delete all
+	@Operation(summary = "Delete All Items in Cart")
 	@DeleteMapping("/deletecart/{cartId}")
-	public ResponseEntity<?> deleteCart(@PathVariable("cartId") String cartId) {
+	public ResponseEntity<?> deleteCart(
+			@Parameter(description = "Enter Cart Id") @PathVariable("cartId") String cartId) {
 		try {
 			Cart cart = this.cartService.getCart(cartId);
 			cart.setTotalPrice(0);

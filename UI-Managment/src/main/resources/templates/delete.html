@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Title</title>
-    <link rel="stylesheet" th:href="style.css"/>
+   	<link rel="stylesheet" th:href="@{/css/style.css}"/>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-<form method="post" action="/submitPaymentDetail">
+<form method="post" action="/web/submitPaymentDetail">
     <div class="container register">
         <div class="row">
             <div class="col-md-3 register-left">
@@ -20,24 +20,25 @@
                         <h3 class="register-heading">Welcome to Paytm Pay Payment</h3>
                         <div class="row register-form">
                             <div class="col-md-10">
+                                
                                 <div class="form-group">
-                                    <input id="ORDER_ID" tabindex="1" maxlength="20" size="20"
-                                           name="ORDER_ID" autocomplete="off" class="form-control" >
+                                	<h5 th:text="'CustomerId : '+${customerId}"></h5>
+                                    <input type="hidden" class="form-control" placeholder="Customer ID" th:value="${customerId}"
+                                           name="CUST_ID" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Customer ID" value=""
-                                           name="CUST_ID"/>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="INDUSTRY_TYPE_ID" value=""
+                                	<h5>INDUSTRY_TYPE_ID : Retail</h5>
+                                    <input type="hidden" class="form-control" placeholder="INDUSTRY_TYPE_ID" value="Retail"
                                            name="INDUSTRY_TYPE_ID"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Channel" value=""
+                                <h5>CHANNEL_ID : WEB</h5>
+                                    <input type="hidden" class="form-control" placeholder="Channel" value="WEB"
                                            name="CHANNEL_ID"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Amount" value=""
+                                	<h5 th:text="'TXN_AMOUNT : '+${price}"></h5>
+                                    <input type="hidden" class="form-control" placeholder="Amount" th:value="${price}"
                                            name="TXN_AMOUNT"/>
                                 </div>
                                 <button type="submit" class="btnRegister" style= "align-content : center">Pay with Paytm</button>

@@ -1,5 +1,0 @@
-spring.application.name=wallet-managment
-spring.mvc.view.prefix=/WEB-INF/
-spring.mvc.view.suffix=.html
-spring.cloud.config.uri=http://localhost:8888
-

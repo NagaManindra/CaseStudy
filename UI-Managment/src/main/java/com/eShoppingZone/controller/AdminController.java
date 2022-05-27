@@ -30,7 +30,8 @@ public class AdminController {
 	@RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
 	public Users[] getAllUsers() {
 
-		ResponseEntity<Users[]> response = restTemplate.getForEntity("http://user-managment/user/getAll", Users[].class);
+		ResponseEntity<Users[]> response = restTemplate.getForEntity("http://user-managment/admin/getAll",
+				Users[].class);
 		return response.getBody();
 
 	}

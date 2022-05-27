@@ -15,7 +15,7 @@ public class CartFallBack {
 
 	@HystrixCommand(fallbackMethod = "getCartFallBack")
 	public Cart getCart(String customerId) {
-		return restTemplate.getForObject("http://cart-managment/cart/getcart/" + customerId, Cart.class);
+		return restTemplate.getForObject("http://cart-managment/user/getcart/" + customerId, Cart.class);
 	}
 
 	public Cart getCartFallBack(String customerId) {

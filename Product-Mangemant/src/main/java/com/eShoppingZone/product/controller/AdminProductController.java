@@ -18,12 +18,17 @@ import com.eShoppingZone.product.exeption.ProductNotFound;
 import com.eShoppingZone.product.model.Product;
 import com.eShoppingZone.product.service.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
 @RestController
-@RequestMapping("product/admin")
+@RequestMapping("/admin")
 public class AdminProductController {
 	@Autowired
 	private ProductService productService;
 
+	// Product register
+	@Operation(summary = "To Add Product")
 	@PostMapping("/addProduct")
 	public ResponseEntity<Product> addProduct(@RequestBody Product product) {
 
@@ -36,9 +41,11 @@ public class AdminProductController {
 		}
 	}
 
+	// Product update
+	@Operation(summary = "To Update the Product")
 	@PutMapping("/update/{productId}")
 	public ResponseEntity<Product> updateProduct(@RequestBody Product product,
-			@PathVariable("productId") String productId) throws Exception {
+			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId) throws Exception {
 		Product productData = productService.getById(productId);
 		if (productData != null) {
 			Product product2 = product;
@@ -48,8 +55,11 @@ public class AdminProductController {
 		}
 	}
 
+	// Product Delete
+	@Operation(summary = "To Delete the Product")
 	@DeleteMapping("/deleteproduct/{productId}")
-	public ResponseEntity<Product> deleteById(@PathVariable String productId) throws Exception {
+	public ResponseEntity<Product> deleteById(
+			@Parameter(description = "Enter Product Id") @PathVariable String productId) throws Exception {
 
 		Product productData = productService.getById(productId);
 		if (productData != null) {
@@ -60,24 +70,20 @@ public class AdminProductController {
 		}
 	}
 
+	// Product get all
+	@Operation(summary = "To Display All the Product")
 	@GetMapping("/getAll")
 	public List<Product> getAllProducts() {
 
 		return productService.getAll();
 	}
 
-	@GetMapping("/getById/{productId}")
-	public ResponseEntity<Product> getProductById(@PathVariable("productId") String productId) throws Exception {
-		Product productData = productService.getById(productId);
-
-		if (productData == null) {
-			throw new ProductNotFound(productId + " not found");
-		}
-		return new ResponseEntity<>(productData, HttpStatus.OK);
-	}
-
+	// Product get by name
+	@Operation(summary = "Find Product by its Name")
 	@GetMapping("/getByName/{productName}")
-	public List<Product> getProductByName(@PathVariable("productName") String productName) throws Exception {
+	public List<Product> getProductByName(
+			@Parameter(description = "Enter Product Name") @PathVariable("productName") String productName)
+			throws Exception {
 
 		List<Product> products = productService.getByName(productName);
 		if (products.isEmpty())
@@ -88,8 +94,12 @@ public class AdminProductController {
 		}
 	}
 
+	// Product get by category
+	@Operation(summary = "Get Product by Category")
 	@GetMapping("/getByCategory/{category}")
-	public List<Product> getProductByCategory(@PathVariable("category") String category) throws Exception {
+	public List<Product> getProductByCategory(
+			@Parameter(description = "Enter Product Category") @PathVariable("category") String category)
+			throws Exception {
 
 		List<Product> products = productService.getByCategory(category);
 		if (products.isEmpty())
@@ -100,8 +110,12 @@ public class AdminProductController {
 		}
 	}
 
+	// Product get by type
+	@Operation(summary = "Get Product by Type")
 	@GetMapping("getByType/{productType}")
-	public List<Product> getProductByType(@PathVariable("productType") String productType) throws Exception {
+	public List<Product> getProductByType(
+			@Parameter(description = "Enter Product Type") @PathVariable("productType") String productType)
+			throws Exception {
 
 		List<Product> products = productService.getByType(productType);
 		if (products.isEmpty())
@@ -110,6 +124,19 @@ public class AdminProductController {
 		else {
 			return products;
 		}
+	}
+
+	// Product get by type
+	@Operation(summary = "Get Product by Id")
+	@GetMapping("/getById/{productId}")
+	public ResponseEntity<Product> getProductById(
+			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId) throws Exception {
+		Product productData = productService.getById(productId);
+
+		if (productData == null) {
+			throw new ProductNotFound(productId + " not found");
+		}
+		return new ResponseEntity<>(productData, HttpStatus.OK);
 	}
 
 	/*

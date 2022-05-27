@@ -1,4 +1,0 @@
-spring.application.name=wallet-managment
-
-spring.cloud.config.uri=http://localhost:8888
-

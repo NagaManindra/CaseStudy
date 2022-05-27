@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
-@RequestMapping("/web")
+@RequestMapping
+@CrossOrigin(origins = "http://localhost:3000/")
 public class WebController {
 
 	@Autowired
@@ -157,18 +159,13 @@ public class WebController {
 	public ResponseEntity<Cart> addCart(@Parameter(description = "Enter Quantity") @RequestBody Item item,
 			@Parameter(description = "Enter Cart Id") @PathVariable("cartId") String cartId,
 			@Parameter(description = "Enter product Id") @PathVariable("productId") String productId) {
-		CartProduct product = restTemplate.getForObject("http://product-managment/product/admin/getById/" + productId,
-				CartProduct.class);
-		if (product != null) {
-			item.setProduct(product);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-			HttpEntity<Item> entity = new HttpEntity<Item>(item, headers);
-			return restTemplate.exchange("http://cart-managment/cart/additem/" + cartId, HttpMethod.POST, entity,
-					Cart.class);
-		}
-		return null;
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity<Item> entity = new HttpEntity<Item>(item, headers);
+		return restTemplate.exchange("http://cart-managment/user/additem/" + cartId + "/" + productId, HttpMethod.POST,
+				entity, Cart.class);
 
 	}
 
@@ -182,7 +179,7 @@ public class WebController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Cart> entity = new HttpEntity<Cart>(headers);
-		return restTemplate.exchange("http://cart-managment/cart/deleteitem/" + cartId + "/" + productId,
+		return restTemplate.exchange("http://cart-managment/user/deleteitem/" + cartId + "/" + productId,
 				HttpMethod.DELETE, entity, Cart.class);
 
 	}
@@ -196,7 +193,7 @@ public class WebController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Cart> entity = new HttpEntity<Cart>(headers);
-		return restTemplate.exchange("http://cart-managment/cart/deletecart/" + cartId, HttpMethod.DELETE, entity,
+		return restTemplate.exchange("http://cart-managment/user/deletecart/" + cartId, HttpMethod.DELETE, entity,
 				Cart.class);
 
 	}
@@ -208,7 +205,7 @@ public class WebController {
 			@Parameter(description = "Enter Cart Id") @PathVariable("cartId") String cartId,
 			@Parameter(description = "Enter Quantity") @RequestBody Item item,
 			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId) {
-		CartProduct product = restTemplate.getForObject("http://product-managment/product/admin/getById/" + productId,
+		CartProduct product = restTemplate.getForObject("http://product-managment/user/getById/" + productId,
 				CartProduct.class);
 		if (product != null) {
 			item.setProduct(product);
@@ -216,7 +213,7 @@ public class WebController {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 			HttpEntity<Item> entity = new HttpEntity<Item>(item, headers);
-			return restTemplate.exchange("http://cart-managment/cart/updateitem/" + cartId, HttpMethod.PUT, entity,
+			return restTemplate.exchange("http://cart-managment/user/updateitem/" + cartId, HttpMethod.PUT, entity,
 					Cart.class);
 		}
 		return null;
@@ -231,7 +228,7 @@ public class WebController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Order> entity = new HttpEntity<Order>(headers);
-		return restTemplate.exchange("http://order-managment/order/addOrder/" + customerId, HttpMethod.POST, entity,
+		return restTemplate.exchange("http://order-managment/user/addOrder/" + customerId, HttpMethod.POST, entity,
 				Order.class);
 
 	}
@@ -250,7 +247,7 @@ public class WebController {
 		 * HttpMethod.GET, entity, Order.class);
 		 */
 		ResponseEntity<Order[]> response = restTemplate
-				.getForEntity("http://order-managment/order/getOrder/" + customerId, Order[].class);
+				.getForEntity("http://order-managment/user/getOrder/" + customerId, Order[].class);
 		return response.getBody();
 
 	}
@@ -262,7 +259,7 @@ public class WebController {
 			@Parameter(description = "Enter Customer Id") @PathVariable("customerId") String customerId) {
 
 		ResponseEntity<Order[]> response = restTemplate
-				.getForEntity("http://order-managment/order/getTodaysOrders/" + customerId, Order[].class);
+				.getForEntity("http://order-managment/user/getTodaysOrders/" + customerId, Order[].class);
 		return response.getBody();
 
 	}
@@ -273,7 +270,7 @@ public class WebController {
 	public Order[] getByOrderId(@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
 
 		ResponseEntity<Order[]> response = restTemplate
-				.getForEntity("http://order-managment/order/getByOrderId/" + orderId, Order[].class);
+				.getForEntity("http://order-managment/user/getByOrderId/" + orderId, Order[].class);
 		return response.getBody();
 
 	}
@@ -283,7 +280,7 @@ public class WebController {
 	@RequestMapping(value = "/deleteOrder/{orderId}", method = RequestMethod.DELETE)
 	public String deleteOrder(@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
 
-		restTemplate.exchange("http://order-managment/order/deleteOrder/" + orderId, HttpMethod.DELETE, null,
+		restTemplate.exchange("http://order-managment/user/deleteOrder/" + orderId, HttpMethod.DELETE, null,
 				String.class);
 
 		return orderId + " deleted";
