@@ -16,8 +16,7 @@ public class UserService {
 
 	// create User
 	public Users createUser(Users user) {
-		return userRepo.save(new Users(user.getUserName(), user.getFullName(), user.getEmail(), user.getGender(),
-				user.getDob(), user.getRole(), user.getMobile_no(), user.getPassword(), user.getAddress()));
+		return userRepo.save(user);
 	}
 
 	// findAll users

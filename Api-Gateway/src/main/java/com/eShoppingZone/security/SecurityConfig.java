@@ -10,10 +10,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableConfigurationProperties
 @EnableWebSecurity
+@CrossOrigin(origins = "http://localhost:3000")
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -28,19 +31,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// http.authorizeRequests().antMatchers("/", "/login", "/logout",
 		// "/signUp").permitAll();
 		// authenticated users
-		http.authorizeRequests().antMatchers("/api/user/user/**", "/api/cart/user/**", "/api/order/user/**")
-				.authenticated();
+		http.authorizeRequests().antMatchers("/login").permitAll();
+		// http.authorizeRequests()
+		// .antMatchers("/api/product/user/**", "/api/user/user/**",
+		// "/api/cart/user/**", "/api/order/user/**")
+		// .permitAll();
 
 		// restricting access
 		http.authorizeRequests()
 				.antMatchers("/api/user/admin/**", "/api/product/admin/**", "/api/cart/admin/**", "/api/order/admin/**")
-				.hasAnyAuthority("admin").and().exceptionHandling().and().httpBasic();
+				.hasAnyAuthority("admin").and().exceptionHandling();
 
+		// http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
 		// configure login form
-		// http.authorizeRequests().and().formLogin().usernameParameter("username").passwordParameter("password")
+		http.authorizeRequests().and().formLogin().and().httpBasic();//
+		// .usernameParameter("username").passwordParameter("password")
 
 		// Config for Logout Page
 		// .and().logout().logoutUrl("/logout");
+		http.cors();
 	}
 
 	@Bean
@@ -52,4 +61,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(AuthenticationManagerBuilder builder) throws Exception {
 		builder.userDetailsService(mongoUserDetailsService);
 	}
+
 }

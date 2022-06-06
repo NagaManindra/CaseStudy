@@ -3,6 +3,7 @@ package com.eShoppingZone.user.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 	// User get by username
 	@Operation(summary = "Get User by userName")
 	@GetMapping("/{username}")
@@ -50,6 +54,7 @@ public class UserController {
 
 		Users userData = userService.getByUserName(username);
 		if (userData != null) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			Users user2 = userService.createUser(user);
 			return new ResponseEntity<>(user2, HttpStatus.CREATED);
 		} else {
@@ -59,10 +64,11 @@ public class UserController {
 
 	// User register
 	@Operation(summary = "Add new User")
-	@PostMapping("/register")
+	@PostMapping("/new/register")
 	public ResponseEntity<Users> createUser(@Parameter(description = "Enter User Details") @RequestBody Users user) {
 		Users userData = userService.getByUserName(user.getUserName());
 		user.setRole("user");
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		if (userData == null) {
 			Users user2 = userService.createUser(user);
 			return new ResponseEntity<>(user2, HttpStatus.CREATED);
