@@ -1,0 +1,70 @@
+.form{
+    width:100%;
+    padding-top: 5%;
+    margin: auto;
+
+}
+.error1 {
+    color: red;
+    font-size: 12px;
+  }
+.error .error1 {
+    color: black;
+    font-size: 17px;
+    text-align: center;
+	background-color: #ff8686;
+    border-radius: 25px;
+  }
+.register-Form{
+    width: 50%;
+    text-align: left;
+    margin: auto;
+    background-color: white;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 60px;
+    border-radius: 15%;
+    
+}
+.register{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+input [type=date] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.regBtn{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color:  #3e637b;
+    border-radius: 50px;
+    color: white;
+    font-size: large;
+}
+
+.regBtn1{
+    width: 50%;
+    padding: 12px 20px;
+    margin: auto;
+    margin-top: 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color:  white;
+    border-radius: 50px;
+    color: #3e637b;
+    font-size: large;
+}
