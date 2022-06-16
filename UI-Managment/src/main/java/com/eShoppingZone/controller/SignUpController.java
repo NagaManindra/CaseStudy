@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,18 +61,13 @@ public class SignUpController {
 
 	// User register
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String userRegister(@Validated @ModelAttribute(value = "user") Users user, BindingResult result,
-			Model model) {
+	public String userRegister(@Validated @ModelAttribute(value = "user") Users user, Model model) {
 
-		if (result.hasErrors()) {
-			return "signUp";
-		}
 		HttpHeaders headers = new HttpHeaders();
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<Users> entity = new HttpEntity<Users>(user, headers);
-		ResponseEntity<Users> users = restTemplate.exchange("http://user-managment/user/register", HttpMethod.POST,
+		ResponseEntity<Users> users = restTemplate.exchange("http://user-managment/user/new/register", HttpMethod.POST,
 				entity, Users.class);
 		System.out.println(users.hasBody());
 		if (!users.hasBody()) {
