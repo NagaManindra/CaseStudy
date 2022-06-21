@@ -54,8 +54,10 @@ public class UserController {
 
 		Users userData = userService.getByUserName(username);
 		if (userData != null) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			Users user2 = userService.createUser(user);
+			user.setUserName(username);
+			user.setPassword(userData.getPassword());
+
+			Users user2 = userService.updateUser(user);
 			return new ResponseEntity<>(user2, HttpStatus.CREATED);
 		} else {
 			throw new UserNotFound(username + " not found ");

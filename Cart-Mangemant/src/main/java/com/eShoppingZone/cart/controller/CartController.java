@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -121,10 +120,10 @@ public class CartController {
 
 	// Update Item in Cart
 	@Operation(summary = "Update Items in Cart")
-	@PutMapping("/updateitem/{cartId}/{productId}")
+	@PutMapping("/updateitem/{cartId}/{productId}/{quantity}")
 	public ResponseEntity<?> updateItemInCart(
 			@Parameter(description = "Enter Cart Id") @PathVariable("cartId") String cartId,
-			@Parameter(description = "Enter Quantity") @RequestBody Item item,
+			@Parameter(description = "Enter Quantity") @PathVariable("quantity") int quantity,
 			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId) {
 
 		Product product = productFallBack.getProduct(productId);
@@ -139,19 +138,19 @@ public class CartController {
 				previousItem.setProduct(value.getProduct());
 				previousItem.setQuantity(value.getQuantity());
 
-				value.setQuantity(item.getQuantity());
+				value.setQuantity(quantity);
 
 			}
 		}
 
 		cart.setItems(items);
-		if (previousItem.getQuantity() < item.getQuantity()) {
-			price = cart.getTotalPrice() + ((item.getProduct().getPrice() * item.getQuantity())
+		if (previousItem.getQuantity() < quantity) {
+			price = cart.getTotalPrice() + ((product.getPrice() * quantity)
 					- previousItem.getProduct().getPrice() * previousItem.getQuantity());
 			cart.setTotalPrice(price);
 		} else {
 			price = cart.getTotalPrice() - (previousItem.getProduct().getPrice() * previousItem.getQuantity()
-					- item.getProduct().getPrice() * item.getQuantity());
+					- product.getPrice() * quantity);
 			cart.setTotalPrice(price);
 		}
 

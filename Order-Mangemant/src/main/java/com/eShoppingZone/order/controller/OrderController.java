@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import com.eShoppingZone.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/user")
 public class OrderController {
@@ -43,7 +45,7 @@ public class OrderController {
 			@Parameter(description = "Enter Customer Id") @PathVariable("customerId") String customerId) {
 		User user = userFallBack.getUserInfo(customerId);
 		Cart cart = cartFallBack.getCart(customerId);
-		return orderService.createOrder(new Order(customerId, LocalDate.now(), cart.getTotalPrice(), "Order Placed",
+		return orderService.createOrder(new Order(customerId, LocalDate.now(), cart.getTotalPrice(), "Order Failed",
 				user.getAddress(), user.getMobile_no(), cart.getItems()));
 	}
 
@@ -83,7 +85,7 @@ public class OrderController {
 	public ResponseEntity<?> updateOrder(
 			@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
 		Order order = orderService.getByOrderId(orderId);
-		order.setOrderStatus("Order Accepted");
+		order.setOrderStatus("Order Placed");
 		Order order2 = orderService.createOrder(order);
 		return new ResponseEntity<>(order2, HttpStatus.CREATED);
 	}

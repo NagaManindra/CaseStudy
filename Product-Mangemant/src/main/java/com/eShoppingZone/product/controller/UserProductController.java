@@ -82,7 +82,7 @@ public class UserProductController {
 		}
 	}
 
-	// Product get by type
+	// Product get by Id
 	@Operation(summary = "Get Product by Id")
 	@GetMapping("/getById/{productId}")
 	public ResponseEntity<Product> getProductById(

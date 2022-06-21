@@ -1,3 +1,4 @@
+
 package com.eShoppingZone.wallet.controller;
 
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,11 +20,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.eShoppingZone.wallet.model.Wallet;
 import com.paytm.pg.merchant.PaytmChecksum;
 
+@CrossOrigin(origins = "http://localhost:3000")
+
 @Controller
 public class WalletController {
 
 	@Autowired
 	private Wallet wallet;
+
 	@Autowired
 	private Environment env;
 
@@ -33,7 +38,9 @@ public class WalletController {
 
 	@PostMapping(value = "/submitPaymentDetail")
 	public ModelAndView getRedirect(@RequestParam(name = "CUST_ID") String customerId,
+
 			@RequestParam(name = "TXN_AMOUNT") String transactionAmount,
+
 			@RequestParam(name = "ORDER_ID") String orderId) throws Exception {
 
 		ModelAndView modelAndView = new ModelAndView("redirect:" + wallet.getPaytmUrl());
@@ -84,7 +91,7 @@ public class WalletController {
 		model.addAttribute("result", result);
 		parameters.remove("CHECKSUMHASH");
 		model.addAttribute("parameters", parameters);
-		return "report";
+		return result;
 	}
 
 	private boolean validateCheckSum(TreeMap<String, String> parameters, String paytmChecksum) throws Exception {

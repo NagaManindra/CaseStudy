@@ -14,7 +14,7 @@ public class Order {
 	private String customerId;
 	private LocalDate orderDate;
 	private double totalPrice;
-	private String orderStatus = "Order Placed";
+	private String orderStatus;
 	private Address address;
 	private Long mobile_No;
 	private List<Item> items;
