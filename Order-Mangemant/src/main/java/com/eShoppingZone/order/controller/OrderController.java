@@ -44,6 +44,7 @@ public class OrderController {
 	public Order createOrder(
 			@Parameter(description = "Enter Customer Id") @PathVariable("customerId") String customerId) {
 		User user = userFallBack.getUserInfo(customerId);
+		System.out.println(user.getFullName());
 		Cart cart = cartFallBack.getCart(customerId);
 		return orderService.createOrder(new Order(customerId, LocalDate.now(), cart.getTotalPrice(), "Order Failed",
 				user.getAddress(), user.getMobile_no(), cart.getItems()));
@@ -72,7 +73,7 @@ public class OrderController {
 		return newList;
 	}
 
-	// order get by customerId
+	// order get by orderId
 	@Operation(summary = "To get customer Orders")
 	@GetMapping("/getByOrderId/{orderId}")
 	public Order getOrder(@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
