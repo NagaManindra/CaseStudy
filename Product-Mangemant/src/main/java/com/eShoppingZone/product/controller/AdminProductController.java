@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import com.eShoppingZone.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/admin")
 public class AdminProductController {
@@ -58,13 +60,12 @@ public class AdminProductController {
 	// Product Delete
 	@Operation(summary = "To Delete the Product")
 	@DeleteMapping("/deleteproduct/{productId}")
-	public ResponseEntity<Product> deleteById(
-			@Parameter(description = "Enter Product Id") @PathVariable String productId) throws Exception {
+	public void deleteById(@Parameter(description = "Enter Product Id") @PathVariable String productId)
+			throws Exception {
 
 		Product productData = productService.getById(productId);
 		if (productData != null) {
 			productService.deleteByProductId(productId);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
 			throw new ProductNotFound(productId + " not found ");
 		}

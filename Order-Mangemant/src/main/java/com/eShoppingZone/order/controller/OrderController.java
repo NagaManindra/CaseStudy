@@ -55,7 +55,10 @@ public class OrderController {
 	@GetMapping("/getOrder/{customerId}")
 	public List<Order> getAllOrders(
 			@Parameter(description = "Enter Customer Id") @PathVariable("customerId") String customerId) {
-		return orderService.getByCustomerId(customerId);
+		List<Order> list = orderService.getByCustomerId(customerId);
+		List<Order> list2 = new ArrayList<>();
+		list.stream().sorted((p, q) -> q.getOrderDate().compareTo(p.getOrderDate())).forEach(p -> list2.add(p));
+		return list2;
 	}
 
 	// order get by current date

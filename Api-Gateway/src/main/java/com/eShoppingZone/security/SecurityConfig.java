@@ -38,9 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// .permitAll();
 
 		// restricting access
-		http.authorizeRequests()
-				.antMatchers("/api/user/admin/**", "/api/product/admin/**", "/api/cart/admin/**", "/api/order/admin/**")
-				.hasAnyAuthority("admin").and().exceptionHandling();
+		// http.authorizeRequests()
+		// .antMatchers("/api/user/admin/**", "/api/product/admin/**",
+		// "/api/cart/admin/**", "/api/order/admin/**")
+		// .hasAnyAuthority("admin").and().exceptionHandling();
 
 		// http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
 		// configure login form
