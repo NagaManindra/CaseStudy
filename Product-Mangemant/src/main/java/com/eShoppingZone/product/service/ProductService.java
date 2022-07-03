@@ -61,9 +61,10 @@ public class ProductService {
 	}
 
 	// delete product by productId
-	public void deleteByProductId(String productId) {
+	public String deleteByProductId(String productId) {
 		Product product = productRepo.findByProductId(productId);
 		productRepo.delete(product);
+		return "product deleted";
 	}
 
 }

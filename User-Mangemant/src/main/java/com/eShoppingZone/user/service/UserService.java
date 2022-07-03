@@ -55,15 +55,17 @@ public class UserService {
 	}
 
 	// delete user by username
-	public void deleteByUserName(String username) {
+	public String deleteByUserName(String username) {
 		Users user = userRepo.findByUserName(username);
 		userRepo.delete(user);
+		return "user deleted";
 	}
 
 	// delete user by email
-	public void deleteByEmail(String email) {
+	public String deleteByEmail(String email) {
 		Users user = userRepo.findByEmail(email);
 		userRepo.delete(user);
+		return "user deleted";
 	}
 
 }

@@ -1,7 +1,12 @@
 package com.eShoppingZone.user.controller;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.AfterAll;
@@ -45,8 +50,9 @@ class UserControllerTest {
 
 		Address address = new Address("89/2-2-11-3", "Majestic function hall line", "Balaji Nagar", "Kurnool",
 				"Andhra Pradesh", 518006);
-		users = new Users("ng2482", "Manindra", "ng2482@srmist.edu.in", "Male", "2001-06-25", "user", 9515962633l,
-				"$2a$10$MyiC.OlXhMRCjARePBjDxOgZ4NYfle84OHQuGc1/TH7deL9i55SYi", address);
+		users = Users.builder().userName("ng2482").fullName("Manindra").email("ng2482@srmist.edu.in").gender("Male")
+				.dob("2001-06-25").role("user").mobile_no(9515962633l)
+				.password("$2a$10$MyiC.OlXhMRCjARePBjDxOgZ4NYfle84OHQuGc1/TH7deL9i55SYi").address(address).build();
 		System.out.println("Test Case Started");
 	}
 
@@ -65,10 +71,13 @@ class UserControllerTest {
 	public void testGetByUserName() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
-		Mockito.when(service.getByUserName("by2900")).thenReturn(users);
+		Mockito.when(service.getByUserName(users.getUserName())).thenReturn(users);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/user/by2900").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
+		mockMvc.perform(
+				MockMvcRequestBuilders.get("/user/" + users.getUserName()).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(jsonPath("$", notNullValue()))
+				.andExpect(jsonPath("$.userName", is(users.getUserName())));
+		;
 	}
 
 	@Test
@@ -80,6 +89,30 @@ class UserControllerTest {
 		String bookJson = new ObjectMapper().writeValueAsString(users);
 		mockMvc.perform(post("/user/new/register").contentType(MediaType.APPLICATION_JSON).content(bookJson))
 				.andExpect(status().isCreated());
+	}
+
+	@Test
+	@DisplayName("Update User")
+	public void testUpdateUser() throws Exception {
+		name = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		when(service.getByUserName(users.getUserName())).thenReturn(users);
+		when(service.updateUser(users)).thenReturn(users);
+		String bookJson = new ObjectMapper().writeValueAsString(users);
+		mockMvc.perform(
+				put("/user/update/" + users.getUserName()).contentType(MediaType.APPLICATION_JSON).content(bookJson))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	@DisplayName("Delete User")
+	public void testDeleteUser() throws Exception {
+		name = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		when(service.getByUserName("by2900")).thenReturn(users);
+		when(service.deleteByUserName(users.getUserName())).thenReturn("user deleted");
+		mockMvc.perform(delete("/user/delete/by2900").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isNoContent());
 	}
 
 }

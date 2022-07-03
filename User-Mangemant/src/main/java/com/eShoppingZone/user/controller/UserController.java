@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,6 @@ import com.eShoppingZone.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -35,7 +33,7 @@ public class UserController {
 	// User get by username
 	@Operation(summary = "Get User by userName")
 	@GetMapping("/{username}")
-	public ResponseEntity<Users> getUserById(
+	public ResponseEntity<Users> getUserByUserName(
 			@Parameter(description = "Enter User Name") @PathVariable("username") String username) throws Exception {
 
 		Users userData = userService.getByUserName(username);
@@ -55,10 +53,11 @@ public class UserController {
 		Users userData = userService.getByUserName(username);
 		if (userData != null) {
 			user.setUserName(username);
+			user.setRole(userData.getRole());
 			user.setPassword(userData.getPassword());
 
 			Users user2 = userService.updateUser(user);
-			return new ResponseEntity<>(user2, HttpStatus.CREATED);
+			return new ResponseEntity<>(user2, HttpStatus.OK);
 		} else {
 			throw new UserNotFound(username + " not found ");
 		}
@@ -83,12 +82,12 @@ public class UserController {
 	@Operation(summary = "Delete User")
 
 	@DeleteMapping("/delete/{username}")
-	public ResponseEntity<HttpStatus> deleteUser(
+	public ResponseEntity<String> deleteUser(
 			@Parameter(description = "Enter userName") @PathVariable("username") String username) throws Exception {
 		Users userData = userService.getByUserName(username);
 		if (userData != null) {
 			userService.deleteByUserName(username);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>("user deleted", HttpStatus.NO_CONTENT);
 		} else {
 			throw new UserNotFound(username + " not found ");
 		}
