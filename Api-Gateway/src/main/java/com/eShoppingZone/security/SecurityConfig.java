@@ -10,12 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableConfigurationProperties
 @EnableWebSecurity
-@CrossOrigin(origins = "http://localhost:3000")
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -31,17 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// http.authorizeRequests().antMatchers("/", "/login", "/logout",
 		// "/signUp").permitAll();
 		// authenticated users
-		http.authorizeRequests().antMatchers("/login").permitAll();
-		// http.authorizeRequests()
-		// .antMatchers("/api/product/user/**", "/api/user/user/**",
-		// "/api/cart/user/**", "/api/order/user/**")
-		// .permitAll();
+		// http.authorizeRequests().antMatchers("/login").permitAll();
+		http.authorizeRequests().antMatchers("/api/user/user/update", "/api/user/user/delete", "/api/cart/user/**",
+				"/api/order/user/**").authenticated();
 
 		// restricting access
-		// http.authorizeRequests()
-		// .antMatchers("/api/user/admin/**", "/api/product/admin/**",
-		// "/api/cart/admin/**", "/api/order/admin/**")
-		// .hasAnyAuthority("admin").and().exceptionHandling();
+		http.authorizeRequests()
+				.antMatchers("/api/user/admin/**", "/api/product/admin/**", "/api/cart/admin/**", "/api/order/admin/**")
+				.hasAnyAuthority("admin").and().exceptionHandling();
 
 		// http.authorizeRequests().anyRequest().authenticated().and().httpBasic();
 		// configure login form
