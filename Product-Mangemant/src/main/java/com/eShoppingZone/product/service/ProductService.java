@@ -27,7 +27,7 @@ public class ProductService {
 	}
 
 	// get product by id
-	public Product getById(String productID) {
+	public Product getById(Long productID) {
 		return productRepo.findByProductId(productID);
 	}
 
@@ -61,7 +61,7 @@ public class ProductService {
 	}
 
 	// delete product by productId
-	public String deleteByProductId(String productId) {
+	public String deleteByProductId(Long productId) {
 		Product product = productRepo.findByProductId(productId);
 		productRepo.delete(product);
 		return "product deleted";

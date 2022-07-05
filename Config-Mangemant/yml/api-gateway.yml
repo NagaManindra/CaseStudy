@@ -1,0 +1,42 @@
+server:
+  port: 8079
+
+zuul:
+  #Service will be mapped under the /api URI
+  prefix: /api
+  routes:
+    user-managment:
+      path: /user/**
+      url: http://localhost:9007
+    product-managment:
+      path: /product/**
+      url: http://localhost:9002
+    cart-managment:
+      path: /cart/**
+      url: http://localhost:9003
+    order-managment:
+      path: /order/**
+      url: http://localhost:9004
+    wallet-managment:
+      path: /wallet/**
+      url: http://localhost:9005
+    web-managment:
+      path: /website/**
+      url: http://localhost:9006
+    ui-managment:
+      path: /ui/**
+      url: http://localhost:9007
+
+
+
+
+
+
+# Increase the Hystrix timeout to 60s (for all)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000

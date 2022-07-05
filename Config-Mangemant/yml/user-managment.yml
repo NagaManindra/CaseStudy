@@ -1,0 +1,6 @@
+server:
+  port: 9007
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://manindra08:Naga7550@cluster0.uwtgi.mongodb.net/user

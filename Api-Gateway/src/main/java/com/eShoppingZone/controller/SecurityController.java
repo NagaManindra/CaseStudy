@@ -21,7 +21,7 @@ public class SecurityController {
 	// User get by username
 	public Users getByUsername(@PathVariable("username") String username) {
 
-		Users response = restTemplate.getForObject("http://localhost:9001/user/" + username, Users.class);
+		Users response = restTemplate.getForObject("http://localhost:9007/user/" + username, Users.class);
 		return response;
 
 	}

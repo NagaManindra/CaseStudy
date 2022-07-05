@@ -20,7 +20,7 @@ public class UserFallBack {
 	}
 
 	public User getUserFallBack(String customerId) {
-		Address address = new Address(0, customerId, customerId, customerId, customerId, 0);
+		Address address = new Address(customerId, customerId, customerId, customerId, customerId, 0);
 		return new User(customerId, "", "", "", "", "", 0, "", address);
 	}
 }

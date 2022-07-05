@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import com.eShoppingZone.product.model.Product;
 
 @Repository
-public interface ProductRepo extends MongoRepository<Product, String> {
-	Product findByProductId(String productId);
+public interface ProductRepo extends MongoRepository<Product, Long> {
+	Product findByProductId(long productId);
 
 	List<Product> findByProductName(String productName);
 

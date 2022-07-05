@@ -1,0 +1,25 @@
+.register-Form1 {
+    width: 50%;
+    text-align: left;
+    margin: auto;
+    background-color: white;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 10px;
+    padding-bottom: 60px;
+    border-radius: 25px;
+    margin-top: 100px;
+}
+
+.regBtn2 {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #3e637b;
+    border-radius: 50px;
+    color: white;
+    font-size: large;
+}

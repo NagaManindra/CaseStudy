@@ -24,6 +24,8 @@ public class UserProductController {
 	@Autowired
 	private ProductService productService;
 
+	String notFound = " not Found";
+
 	// Product get all
 	@Operation(summary = "To Display All the Product")
 	@GetMapping("/getAll")
@@ -37,11 +39,11 @@ public class UserProductController {
 	@GetMapping("/getByName/{productName}")
 	public List<Product> getProductByName(
 			@Parameter(description = "Enter Product Name") @PathVariable("productName") String productName)
-			throws Exception {
+			throws ProductNotFound {
 
 		List<Product> products = productService.getByName(productName);
 		if (products.isEmpty())
-			throw new ProductNotFound(productName + " not found");
+			throw new ProductNotFound(productName + notFound);
 
 		else {
 			return products;
@@ -53,11 +55,11 @@ public class UserProductController {
 	@GetMapping("/getByCategory/{category}")
 	public List<Product> getProductByCategory(
 			@Parameter(description = "Enter Product Category") @PathVariable("category") String category)
-			throws Exception {
+			throws ProductNotFound {
 
 		List<Product> products = productService.getByCategory(category);
 		if (products.isEmpty())
-			throw new ProductNotFound(category + " not found");
+			throw new ProductNotFound(category + notFound);
 
 		else {
 			return products;
@@ -69,11 +71,11 @@ public class UserProductController {
 	@GetMapping("getByType/{productType}")
 	public List<Product> getProductByType(
 			@Parameter(description = "Enter Product Type") @PathVariable("productType") String productType)
-			throws Exception {
+			throws ProductNotFound {
 
 		List<Product> products = productService.getByType(productType);
 		if (products.isEmpty())
-			throw new ProductNotFound(productType + " not found");
+			throw new ProductNotFound(productType + notFound);
 
 		else {
 			return products;
@@ -84,11 +86,12 @@ public class UserProductController {
 	@Operation(summary = "Get Product by Id")
 	@GetMapping("/getById/{productId}")
 	public ResponseEntity<Product> getProductById(
-			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId) throws Exception {
+			@Parameter(description = "Enter Product Id") @PathVariable("productId") long productId)
+			throws ProductNotFound {
 		Product productData = productService.getById(productId);
 
 		if (productData == null) {
-			throw new ProductNotFound(productId + " not found");
+			throw new ProductNotFound(productId + notFound);
 		}
 		return new ResponseEntity<>(productData, HttpStatus.OK);
 	}

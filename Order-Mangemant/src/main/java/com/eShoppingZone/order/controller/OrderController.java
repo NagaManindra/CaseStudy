@@ -42,7 +42,6 @@ public class OrderController {
 	public Order createOrder(
 			@Parameter(description = "Enter Customer Id") @PathVariable("customerId") String customerId) {
 		User user = userFallBack.getUserInfo(customerId);
-		System.out.println(user.getFullName());
 		Cart cart = cartFallBack.getCart(customerId);
 		return orderService.createOrder(new Order(customerId, LocalDate.now(), cart.getTotalPrice(), "Order Failed",
 				user.getAddress(), user.getMobile_no(), cart.getItems()));
@@ -55,7 +54,7 @@ public class OrderController {
 			@Parameter(description = "Enter Customer Id") @PathVariable("customerId") String customerId) {
 		List<Order> list = orderService.getByCustomerId(customerId);
 		List<Order> list2 = new ArrayList<>();
-		list.stream().sorted((p, q) -> q.getOrderDate().compareTo(p.getOrderDate())).forEach(p -> list2.add(p));
+		list.stream().sorted((p, q) -> q.getOrderDate().compareTo(p.getOrderDate())).forEach(list2::add);
 		return list2;
 	}
 
@@ -71,7 +70,9 @@ public class OrderController {
 				newList.add(dateOrder);
 			}
 		}
-		return newList;
+		List<Order> list2 = new ArrayList<>();
+		newList.stream().sorted((p, q) -> q.getOrderId().compareTo(p.getOrderId())).forEach(list2::add);
+		return list2;
 	}
 
 	// order get by orderId
@@ -84,7 +85,7 @@ public class OrderController {
 	// order Update by orderId
 	@Operation(summary = "To Update customer Orders")
 	@PutMapping("/updateOrder/{orderId}")
-	public ResponseEntity<?> updateOrder(
+	public ResponseEntity<Order> updateOrder(
 			@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
 		Order order = orderService.getByOrderId(orderId);
 		order.setOrderStatus("Order Placed");
@@ -95,7 +96,7 @@ public class OrderController {
 	// order delete by customerId
 	@Operation(summary = "Delete Orders by CustomerId")
 	@DeleteMapping("/deleteOrder/{orderId}")
-	public ResponseEntity<?> deleteOrder(
+	public ResponseEntity<String> deleteOrder(
 			@Parameter(description = "Enter Order Id") @PathVariable("orderId") String orderId) {
 		orderService.deleteOrder(orderId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

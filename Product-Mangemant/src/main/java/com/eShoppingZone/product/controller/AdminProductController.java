@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eShoppingZone.product.exeption.ProductNotFound;
 import com.eShoppingZone.product.model.Product;
 import com.eShoppingZone.product.service.ProductService;
+import com.eShoppingZone.product.service.SequenceGeneratorService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,6 +28,11 @@ public class AdminProductController {
 	@Autowired
 	private ProductService productService;
 
+	@Autowired
+	private SequenceGeneratorService sequenceGeneratorService;
+
+	String notFound = " not Found";
+
 	// Product register
 	@Operation(summary = "To Add Product")
 	@PostMapping("/addProduct")
@@ -34,10 +40,11 @@ public class AdminProductController {
 
 		Product productData = productService.getById(product.getProductId());
 		if (productData == null) {
+			product.setProductId(sequenceGeneratorService.generateSequence(Product.SEQUENCE_NAME));
 			Product product2 = productService.createProduct(product);
-			return new ResponseEntity<Product>(product2, HttpStatus.CREATED);
+			return new ResponseEntity<>(product2, HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<>(null, HttpStatus.ALREADY_REPORTED);
+			return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
 		}
 	}
 
@@ -45,28 +52,30 @@ public class AdminProductController {
 	@Operation(summary = "To Update the Product")
 	@PutMapping("/update/{productId}")
 	public ResponseEntity<Product> updateProduct(@RequestBody Product product,
-			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId) throws Exception {
+			@Parameter(description = "Enter Product Id") @PathVariable("productId") long productId)
+			throws ProductNotFound {
 		Product productData = productService.getById(productId);
 		if (productData != null) {
 			Product product2 = product;
+			product2.setProductId(productData.getProductId());
 			return new ResponseEntity<>(productService.createProduct(product2), HttpStatus.OK);
 		} else {
-			throw new ProductNotFound(productId + " not found ");
+			throw new ProductNotFound(productId + notFound);
 		}
 	}
 
 	// Product Delete
 	@Operation(summary = "To Delete the Product")
 	@DeleteMapping("/deleteproduct/{productId}")
-	public ResponseEntity<String> deleteById(
-			@Parameter(description = "Enter Product Id") @PathVariable String productId) throws Exception {
+	public ResponseEntity<String> deleteById(@Parameter(description = "Enter Product Id") @PathVariable long productId)
+			throws ProductNotFound {
 
 		Product productData = productService.getById(productId);
 		if (productData != null) {
 			String result = productService.deleteByProductId(productId);
 			return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
 		} else {
-			throw new ProductNotFound(productId + " not found ");
+			throw new ProductNotFound(productId + notFound);
 		}
 	}
 
@@ -83,11 +92,11 @@ public class AdminProductController {
 	@GetMapping("/getByName/{productName}")
 	public List<Product> getProductByName(
 			@Parameter(description = "Enter Product Name") @PathVariable("productName") String productName)
-			throws Exception {
+			throws ProductNotFound {
 
 		List<Product> products = productService.getByName(productName);
 		if (products.isEmpty())
-			throw new ProductNotFound(productName + " not found");
+			throw new ProductNotFound(productName + notFound);
 
 		else {
 			return products;
@@ -99,11 +108,11 @@ public class AdminProductController {
 	@GetMapping("/getByCategory/{category}")
 	public List<Product> getProductByCategory(
 			@Parameter(description = "Enter Product Category") @PathVariable("category") String category)
-			throws Exception {
+			throws ProductNotFound {
 
 		List<Product> products = productService.getByCategory(category);
 		if (products.isEmpty())
-			throw new ProductNotFound(category + " not found");
+			throw new ProductNotFound(category + notFound);
 
 		else {
 			return products;
@@ -115,11 +124,11 @@ public class AdminProductController {
 	@GetMapping("getByType/{productType}")
 	public List<Product> getProductByType(
 			@Parameter(description = "Enter Product Type") @PathVariable("productType") String productType)
-			throws Exception {
+			throws ProductNotFound {
 
 		List<Product> products = productService.getByType(productType);
 		if (products.isEmpty())
-			throw new ProductNotFound(productType + " not found");
+			throw new ProductNotFound(productType + notFound);
 
 		else {
 			return products;
@@ -130,18 +139,13 @@ public class AdminProductController {
 	@Operation(summary = "Get Product by Id")
 	@GetMapping("/getById/{productId}")
 	public ResponseEntity<Product> getProductById(
-			@Parameter(description = "Enter Product Id") @PathVariable("productId") String productId) throws Exception {
+			@Parameter(description = "Enter Product Id") @PathVariable("productId") long productId)
+			throws ProductNotFound {
 		Product productData = productService.getById(productId);
 
 		if (productData == null) {
-			throw new ProductNotFound(productId + " not found");
+			throw new ProductNotFound(productId + notFound);
 		}
 		return new ResponseEntity<>(productData, HttpStatus.OK);
 	}
-
-	/*
-	 * { "productId":"123", "productType":"Full Sleeves",
-	 * "productName":"TS Athiletic", "category":"T-Shirst", "image":"abc.jpg",
-	 * "price":499.0, "rating":3.5, "description":"Fully Conforatable" }
-	 */
 }

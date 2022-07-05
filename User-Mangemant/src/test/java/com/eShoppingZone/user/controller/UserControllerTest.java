@@ -68,7 +68,7 @@ class UserControllerTest {
 
 	@Test
 	@DisplayName("Get User")
-	public void testGetByUserName() throws Exception {
+	void testGetByUserName() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		Mockito.when(service.getByUserName(users.getUserName())).thenReturn(users);
@@ -82,7 +82,7 @@ class UserControllerTest {
 
 	@Test
 	@DisplayName("Create User")
-	public void testCreateUser() throws Exception {
+	void testCreateUser() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		when(service.createUser(users)).thenReturn(users);
@@ -93,7 +93,7 @@ class UserControllerTest {
 
 	@Test
 	@DisplayName("Update User")
-	public void testUpdateUser() throws Exception {
+	void testUpdateUser() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		when(service.getByUserName(users.getUserName())).thenReturn(users);
@@ -106,7 +106,7 @@ class UserControllerTest {
 
 	@Test
 	@DisplayName("Delete User")
-	public void testDeleteUser() throws Exception {
+	void testDeleteUser() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		when(service.getByUserName("by2900")).thenReturn(users);

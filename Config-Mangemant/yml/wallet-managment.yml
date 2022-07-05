@@ -1,0 +1,21 @@
+server:
+  port: 9005
+paytm:
+  payment:
+    sandbox:
+      merchantId: wtYSWO67585826770371
+      merchantKey: LWShhf%1AYDLT@b8
+      channelId: WEB
+      industryTypeId: Retail
+      website: WEBSTAGING
+      paytmUrl: https://securegw-stage.paytm.in/order/process
+      callbackUrl: http://localhost:9005/pgresponse
+      details:
+        MID: ${paytm.payment.sandbox.merchantId}
+        CHANNEL_ID: ${paytm.payment.sandbox.channelId}
+        INDUSTRY_TYPE_ID: ${paytm.payment.sandbox.industryTypeId}
+        WEBSITE: ${paytm.payment.sandbox.website}
+        CALLBACK_URL: ${paytm.payment.sandbox.callbackUrl}
+
+  mobile: 9515962633
+  email: nagamanindra7550@gmail.com

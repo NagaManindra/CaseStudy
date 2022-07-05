@@ -30,15 +30,17 @@ public class UserController {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
+	String notFound = "not Found";
+
 	// User get by username
 	@Operation(summary = "Get User by userName")
 	@GetMapping("/{username}")
 	public ResponseEntity<Users> getUserByUserName(
-			@Parameter(description = "Enter User Name") @PathVariable("username") String username) throws Exception {
+			@Parameter(description = "Enter User Name") @PathVariable("username") String username) throws UserNotFound {
 
 		Users userData = userService.getByUserName(username);
 		if (userData == null) {
-			throw new UserNotFound(username + " not found ");
+			throw new UserNotFound(username + notFound);
 		}
 		return new ResponseEntity<>(userData, HttpStatus.OK);
 	}
@@ -48,7 +50,7 @@ public class UserController {
 	@PutMapping("/update/{username}")
 	public ResponseEntity<Users> updateUser(
 			@Parameter(description = "Enter User Name") @PathVariable("username") String username,
-			@Parameter(description = "Enter Update Details") @RequestBody Users user) throws Exception {
+			@Parameter(description = "Enter Update Details") @RequestBody Users user) throws UserNotFound {
 
 		Users userData = userService.getByUserName(username);
 		if (userData != null) {
@@ -59,7 +61,7 @@ public class UserController {
 			Users user2 = userService.updateUser(user);
 			return new ResponseEntity<>(user2, HttpStatus.OK);
 		} else {
-			throw new UserNotFound(username + " not found ");
+			throw new UserNotFound(username + notFound);
 		}
 	}
 
@@ -74,7 +76,7 @@ public class UserController {
 			Users user2 = userService.createUser(user);
 			return new ResponseEntity<>(user2, HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<>(null, HttpStatus.ALREADY_REPORTED);
+			return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
 		}
 	}
 
@@ -83,22 +85,14 @@ public class UserController {
 
 	@DeleteMapping("/delete/{username}")
 	public ResponseEntity<String> deleteUser(
-			@Parameter(description = "Enter userName") @PathVariable("username") String username) throws Exception {
+			@Parameter(description = "Enter userName") @PathVariable("username") String username) throws UserNotFound {
 		Users userData = userService.getByUserName(username);
 		if (userData != null) {
 			userService.deleteByUserName(username);
 			return new ResponseEntity<>("user deleted", HttpStatus.NO_CONTENT);
 		} else {
-			throw new UserNotFound(username + " not found ");
+			throw new UserNotFound(username + notFound);
 		}
 	}
-
-	/*
-	 * { "userName": "mani08", "fullName": "G Mani", "email": "mani08@gmail.com",
-	 * "gender": "female", "dob": "19-03-1977", "role": "user", "mobile_no":
-	 * 9515962633, "password": "mani@08", "address": { "house_no":89,
-	 * "street_name":"Majest line", "colony_name":"BN", "city":"KNL", "state":"AP",
-	 * "pincode":518001 } }
-	 */
 
 }
