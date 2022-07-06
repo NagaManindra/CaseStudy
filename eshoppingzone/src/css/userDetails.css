@@ -53,9 +53,9 @@ hr {
 
 }
 
-.button11 {
+.buttonUserUpdate {
 	background-color: #026cbb;
-	width: 40%;
+	width: 20%;
 	text-align: center;
 	padding-top: 5px;
 	padding-left: 10px;
@@ -67,9 +67,9 @@ hr {
 	text-decoration: none;
 }
 
-.button2 {
+.buttonUserDelete {
 	background-color: #ee6a63fb;
-	width: 40%;
+	width: 20%;
 	text-align: center;
 	padding-top: 5px;
 	padding-left: 10px;

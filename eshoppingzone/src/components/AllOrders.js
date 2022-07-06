@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import OrderService from '../service/OrderService';
 import LoginService from '../service/LoginService';
-import HeaderComponent from './HeaderComponent';
 import '../css/cartStyle.css'
 import { Link } from 'react-router-dom';
 
@@ -33,7 +32,6 @@ export class AllOrders extends Component {
     render() {
         return (
             <div>
-                <HeaderComponent userName={LoginService.id}></HeaderComponent>
                 <div className="remo">
                     <Link className="remove4" to={'/toorder'} >Todays Orders</Link>
                 </div>

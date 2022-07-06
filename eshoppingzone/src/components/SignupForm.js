@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
-import HeaderComponent from "./HeaderComponent";
 import '../css/loginStyle.css'
 
 const SignupForm = () => {
@@ -129,8 +128,6 @@ const SignupForm = () => {
     }
     return (
         <div>
-            <HeaderComponent userName={LoginService.id}></HeaderComponent>
-
             <form className='form' onSubmit={onSignup}>
                 <div className='register-Form'>
                     <h6 className="error">

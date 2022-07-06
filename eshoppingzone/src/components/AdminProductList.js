@@ -45,7 +45,6 @@ class AdminProductList extends Component {
         if (LoginService.role === "admin") {
             return (
                 <div>
-                    <HeaderComponent userName={this.state.user}></HeaderComponent>
                     <div className="contant">
                         {
                             this.state.products.map(

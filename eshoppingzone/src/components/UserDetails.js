@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import LoginService from '../service/LoginService';
 import '../css/userDetails.css'
-import HeaderComponent from './HeaderComponent';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
-export default class UserDetails extends Component {
+export class UserDetailsClass extends Component {
     constructor(props) {
         super(props)
 
@@ -17,18 +16,25 @@ export default class UserDetails extends Component {
 
     componentDidMount() {
         LoginService.getDetails(LoginService.id).then(res => {
-            this.setState({ user: res.data });
-            this.setState({ address: res.data.address });
+            this.setState({ user: res.data, address: res.data.address });
         }
         );
     }
+
+    update() {
+        this.props.navigate("/update");
+    }
+
+    delete() {
+        this.props.navigate("/delete");
+    }
+
     render() {
         var user = this.state.user
         var address = this.state.address
         return (
             <div>
-                <HeaderComponent userName={LoginService.id}></HeaderComponent>
-                <div className="userDetails">
+                <div data-testid="user" className="userDetails">
                     <div className="user">
                         <h4 className="Name">{user.fullName}</h4>
                         <div className="details">
@@ -56,10 +62,10 @@ export default class UserDetails extends Component {
                         </div>
                         <div>
                             <span className='span'>
-                                <Link className='button11' to={'/update'}>Update Profile</Link>
+                                <button className='buttonUserUpdate' onClick={() => this.update()}>Update Profile</button>
                             </span>
                             <span className='span'>
-                                <Link className='button2' to={'/delete'}>Delete Profile</Link>
+                                <button className='buttonUserDelete' onClick={() => this.delete()}>Delete Profile</button>
                             </span>
                         </div>
                     </div>
@@ -67,4 +73,14 @@ export default class UserDetails extends Component {
             </div>
         )
     }
+}
+
+
+export default function UserDetails() {
+    const navigate = useNavigate();
+    return (
+        <div>
+            <UserDetailsClass navigate={navigate}></UserDetailsClass>
+        </div>
+    )
 }

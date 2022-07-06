@@ -3,7 +3,6 @@ import bcryptjs from 'bcryptjs';
 import '../css/loginStyle.css';
 import { Navigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
-import HeaderComponent from './HeaderComponent';
 
 
 
@@ -51,8 +50,6 @@ function UserDelete() {
 
   const renderForm = (
     <div>
-      <HeaderComponent userName={LoginService.id}></HeaderComponent>
-
       <form className='form' onSubmit={handleSubmit}>
         <div className='register-Form'>
           <h6 className="error">{renderErrorMessage('uname')}</h6>

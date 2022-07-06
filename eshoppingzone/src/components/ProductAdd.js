@@ -2,11 +2,9 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import ProductService from '../service/ProductService';
 import LoginService from '../service/LoginService';
-import HeaderComponent from './HeaderComponent';
 
 
 function ProductAdd() {
-    const [productId, setProductId] = useState('');
     const [productName, setProductName] = useState('');
     const [productType, setProductType] = useState('');
     const [category, setCategory] = useState('');
@@ -58,8 +56,6 @@ function ProductAdd() {
     if (LoginService.role === "admin") {
         return (
             <div>
-                <HeaderComponent userName={LoginService.id}></HeaderComponent>
-
                 <form className='form' onSubmit={onUpdate}>
                     <div className='register-Form'>
 
@@ -97,8 +93,6 @@ function ProductAdd() {
     else {
         return (
             <div>
-                <HeaderComponent userName={LoginService.id}></HeaderComponent>
-
                 <div className='head1'>
                     <h2>You are not Allowed to this Page</h2>
                 </div>

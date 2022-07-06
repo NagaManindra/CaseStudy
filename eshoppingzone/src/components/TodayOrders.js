@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import OrderService from '../service/OrderService';
 import LoginService from '../service/LoginService';
-import HeaderComponent from './HeaderComponent';
 import '../css/orderStyle.css'
 import { Link } from 'react-router-dom';
 
@@ -32,7 +31,6 @@ export class TodayOrders extends Component {
             if (this.state.empty) {
                 return (
                     <div>
-                        <HeaderComponent userName={LoginService.id}></HeaderComponent>
                         {this.state.order.map(
                             order =>
 
@@ -72,7 +70,6 @@ export class TodayOrders extends Component {
             }
             else {
                 <div>
-                    <HeaderComponent userName={LoginService.id}></HeaderComponent>
 
                     <div className='head1'>
                         <h2>No Order made Today</h2>
@@ -83,8 +80,6 @@ export class TodayOrders extends Component {
         else {
             return (
                 <div>
-                    <HeaderComponent userName={LoginService.id}></HeaderComponent>
-
                     <div className='head1'>
                         <h2>Please Login to Access Order Services</h2>
                         <Link className='regBtn3' to={"/login"}>SignIn / SignUp</Link>

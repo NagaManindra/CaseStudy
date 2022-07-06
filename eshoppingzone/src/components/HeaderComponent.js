@@ -41,13 +41,39 @@
 // export default HeaderComponent;
 
 import LoginService from '../service/LoginService';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import '../css/HeaderFooter.css';
 
-function HeaderComponent() {
-    if (LoginService.id !== "Profile") {
-        if (LoginService.role === "user") {
+
+function HeaderComponent(props) {
+    const [name, setName] = useState("Profile");
+    const [role, setRole] = useState(null);
+
+    useEffect(() => {
+        setInterval(() => {
+            setName(LoginService.id);
+            setRole(LoginService.role)
+        }, 1)
+    })
+    if (name === "Profile") {
+        return (
+            <div>
+                <div className="fixed-header">
+                    <div className="container">
+                        <nav>
+                            <span className="logo"> E-ShoppingZone</span>
+                            <Link to={'/'} >Home</Link>
+
+                            <Link to={'/login'}>login</Link>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+    else {
+        if (role === "user") {
             return (
                 <div>
                     <div className="fixed-header">
@@ -85,20 +111,7 @@ function HeaderComponent() {
             )
         }
     }
-    return (
-        <div>
-            <div className="fixed-header">
-                <div className="container">
-                    <nav>
-                        <span className="logo"> E-ShoppingZone</span>
-                        <Link to={'/'} >Home</Link>
 
-                        <Link to={'/login'}>login</Link>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    )
 }
 
 export default HeaderComponent

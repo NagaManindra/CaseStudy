@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
-import HeaderComponent from "./HeaderComponent";
 
 const UserUpdate = () => {
 
@@ -158,8 +157,6 @@ const UserUpdate = () => {
 
     return (
         <div>
-            <HeaderComponent userName={LoginService.id}></HeaderComponent>
-
             <form className='form' onSubmit={onUpdate}>
                 <div className='register-Form'>
                     <h6 className="error">

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import CartService from '../service/CartService';
 import LoginService from '../service/LoginService';
-import HeaderComponent from './HeaderComponent';
 import '../css/cartStyle.css'
 import { Link, useNavigate } from 'react-router-dom';
 import OrderService from '../service/OrderService';
@@ -81,8 +80,6 @@ export class CartList extends Component {
         if (this.state.empty) {
             return (
                 <div>
-                    <HeaderComponent userName={LoginService.id}></HeaderComponent>
-
                     <div className="head1" >
                         <h3>UserName : {this.state.cart.cartId}</h3>
                         <h3>Total Price : {this.state.cart.totalPrice}</h3>
@@ -122,8 +119,6 @@ export class CartList extends Component {
         else {
             return (
                 <div>
-                    <HeaderComponent userName={LoginService.id}></HeaderComponent>
-
                     <div className='head1'>
                         <h2>Add items to Cart</h2>
                     </div>
@@ -144,7 +139,6 @@ function CartListFunction() {
     else {
         return (
             <div>
-                <HeaderComponent userName={LoginService.id}></HeaderComponent>
                 <div className='head1'>
                     <h2>Please Login to Access Cart service</h2>
                     <Link className="regBtn3" to={"/login"}>SignIn / SingUp</Link>

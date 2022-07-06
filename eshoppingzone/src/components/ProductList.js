@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ProductService from '../service/ProductService';
 import LoginService from '../service/LoginService';
-import HeaderComponent from './HeaderComponent';
 import CartService from '../service/CartService';
 
 
@@ -38,12 +37,11 @@ class ProductList extends Component {
     render() {
         return (
             <div>
-                <HeaderComponent userName={this.state.user}></HeaderComponent>
                 <div className="contant">
                     {
                         this.state.products.map(
                             product =>
-                                <div className="card" data-testid='todo' key={product.productId}>
+                                <div className="card" data-testid='products' key={product.productId}>
                                     <img className="cardImg" src={`./image/${product.image}`} alt={`${product.image}`}></img>
                                     <div className="cardBody">
                                         <h5 className="card-title" >{product.productName}</h5>

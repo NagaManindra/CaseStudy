@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import bcryptjs from 'bcryptjs';
 import '../css/loginStyle.css';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
-import HeaderComponent from './HeaderComponent';
 
 function LoginForm(props) {
   const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const errors = {
     uname: "user not found",
     pass: "invalid password"
@@ -40,7 +38,6 @@ function LoginForm(props) {
           props.navigate("/admin")
         }
         console.log(userDetails.data.role)
-        setIsSubmitted(true);
 
       }
     } else {
@@ -60,8 +57,6 @@ function LoginForm(props) {
 
   return (
     <div>
-      <HeaderComponent userName={LoginService.id}></HeaderComponent>
-
       <form className='form' onSubmit={handleSubmit}>
         <div className='register-Form'>
           <h6 className="error">{renderErrorMessage('uname')}</h6>

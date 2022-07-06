@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import OrderService from "../service/OrderService";
 import LoginService from '../service/LoginService';
-import HeaderComponent from "./HeaderComponent";
 import '../css/payment.css'
 import CartService from "../service/CartService";
 
@@ -179,7 +178,6 @@ export function PaytmButton() {
           <img alt="" src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" />
         ) : (
           <div>
-            <HeaderComponent userName={LoginService.id}></HeaderComponent>
 
             <div className="register-Form1">
               <h1 align="center">Payment</h1>

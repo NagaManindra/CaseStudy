@@ -15,14 +15,15 @@ import AdminProductList from './components/AdminProductList';
 import LoginPage from './components/LoginForm';
 import ProductUpdate from './components/ProductUpdate';
 import ProductAdd from './components/ProductAdd';
+import HeaderComponent from './components/HeaderComponent';
 
 function App() {
-
 
   return (
     <div className="App">
       <Router>
         <div className='contain'>
+          <HeaderComponent></HeaderComponent>
           <div className='contain1'>
             <Routes>
               <Route path='/' element={<ProductList />}></Route>
