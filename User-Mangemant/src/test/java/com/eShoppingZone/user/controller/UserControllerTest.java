@@ -77,7 +77,6 @@ class UserControllerTest {
 				MockMvcRequestBuilders.get("/user/" + users.getUserName()).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andExpect(jsonPath("$", notNullValue()))
 				.andExpect(jsonPath("$.userName", is(users.getUserName())));
-		;
 	}
 
 	@Test
