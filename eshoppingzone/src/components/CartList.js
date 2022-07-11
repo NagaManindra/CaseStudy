@@ -80,7 +80,7 @@ export class CartList extends Component {
         if (this.state.empty) {
             return (
                 <div>
-                    <div className="head1" >
+                    <div data-testid="cart" className="head1" >
                         <h3>UserName : {this.state.cart.cartId}</h3>
                         <h3>Total Price : {this.state.cart.totalPrice}</h3>
                         <div className="contant1">
@@ -88,7 +88,7 @@ export class CartList extends Component {
                                 this.state.productlist.map(
                                     list =>
 
-                                        <div className="card1" key={list.product.productId}>
+                                        <div data-testid="items" className="card1" key={list.product.productId}>
                                             <div className="cardBody1">
                                                 <h5 className="card1-title">{list.product.productName}</h5>
                                                 <h6 className="price1">${list.product.price}</h6>

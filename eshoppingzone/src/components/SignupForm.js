@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
 import '../css/loginStyle.css'
 
-const SignupForm = () => {
+const SignupForm = (props) => {
 
     const [errorMessages, setErrorMessages] = useState('');
     const [userName, setUserName] = useState('');
@@ -46,14 +46,12 @@ const SignupForm = () => {
             console.log(userName)
 
             LoginService.addUser(user)
-
-
-
             alert("Registration Successful");
             navigate("/login");
 
         }
         else {
+            console.log('user not found')
             setErrorMessages('enter valid details')
         }
 
@@ -166,11 +164,11 @@ const SignupForm = () => {
                         onChange={e => this.confirmpassword = e.target.value}/> */}
 
                     <label><b>Confirm Password</b></label>
-                    <input type="password" className='register' placeholder='re-enter password' name='password'
+                    <input type="password" className='register' placeholder='re-enter password' name='cPassword'
                         onChange={(e) => validateCPassword(e)} required />
                     <div className="error1">{cPassErrorMessage}</div>
 
-                    <button className='regBtn'>Sign Up</button>
+                    <button data-testid='button' className='regBtn'>Sign Up</button>
                 </div>
             </form>
         </div>

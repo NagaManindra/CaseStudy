@@ -21,7 +21,7 @@ class LoginService {
     }
 
     addUser(user) {
-        axios.post(user_url + "new/register", user)
+        return axios.post(user_url + "new/register", user)
     }
 
     async getDetails(username) {
@@ -30,11 +30,11 @@ class LoginService {
     }
 
     updateUser(username, user) {
-        axios.put(user_url + `update/${username}`, user)
+        return axios.put(user_url + `update/${username}`, user)
     }
 
     deleteUser(userName) {
-        axios.delete(user_url + `delete/${userName}`)
+        return axios.delete(user_url + `delete/${userName}`)
     }
 
 }

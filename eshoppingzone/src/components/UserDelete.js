@@ -60,7 +60,7 @@ function UserDelete() {
 
 
           <label><b>Username</b></label>
-          <input type="text" className='register' placeholder='username' name='uname' />
+          <input type="text" className='register' value={LoginService.id} placeholder='username' name='uname' />
           {/* <label><b>Email</b></label>
                     <input type="text" className='register' placeholder='abc.@' name='email'
                         onChange={e => this.email = e.target.value}/> */}

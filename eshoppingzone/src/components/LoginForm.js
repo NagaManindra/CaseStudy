@@ -4,32 +4,34 @@ import '../css/loginStyle.css';
 import { useNavigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
 
-function LoginForm(props) {
+export function LoginForm(props) {
   const [errorMessages, setErrorMessages] = useState({});
   const errors = {
     uname: "user not found",
     pass: "invalid password"
   };
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleSubmit = async event => {
     //Prevent page reload
     event.preventDefault();
 
-    var { uname, pass } = document.forms[0];
-    const userDetails = await LoginService.getDetails(uname.value)
+    const userDetails = await LoginService.getDetails(userName)
       .catch(err => {
         setErrorMessages({ name: "uname", message: errors.uname });
       });
 
 
     // Compare user info
-    if (userDetails.data.userName === uname.value) {
-      if (!bcryptjs.compareSync(pass.value, userDetails.data.password)) {
+    if (userDetails.data.userName === userName) {
+      if (!bcryptjs.compareSync(password, userDetails.data.password)) {
         // Invalid password
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
         alert(`welcome ${userDetails.data.fullName}`);
-        LoginService.userId(uname.value)
-        LoginService.userPassword(pass.value)
+        LoginService.userId(userName)
+        LoginService.userPassword(password)
         LoginService.userRole(userDetails.data.role)
         if (userDetails.data.role === "user") {
           props.navigate("/products")
@@ -45,6 +47,13 @@ function LoginForm(props) {
       setErrorMessages({ name: "uname", message: errors.uname });
     }
   };
+
+  const validateUserName = (e) => {
+    setUserName(e.target.value)
+  }
+  const validatePassword = (e) => {
+    setPassword(e.target.value)
+  }
 
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
@@ -67,19 +76,19 @@ function LoginForm(props) {
 
 
           <label><b>Username</b></label>
-          <input type="text" className='register' placeholder='username' name='uname' />
+          <input type="text" className='register' placeholder='username' name='uname' onChange={(e) => validateUserName(e)} />
           {/* <label><b>Email</b></label>
                     <input type="text" className='register' placeholder='abc.@' name='email'
                         onChange={e => this.email = e.target.value}/> */}
 
           <label><b>Password</b></label>
-          <input type="password" className='register' placeholder='password' name='pass' />
+          <input type="password" className='register' placeholder='password' name='pass' onChange={(e) => validatePassword(e)} />
           {renderErrorMessage("pass")}
           {/* <label><b>Confirm Password</b></label>
                     <input type="password" className='register' placeholder='password' name='confirmpassword'
                         onChange={e => this.confirmpassword = e.target.value}/> */}
 
-          <button className='regBtn'>Sign in</button>
+          <button className='regBtn' data-testid="button">Sign in</button>
         </div>
       </form>
       <button className='regBtn1' onClick={onSignup}>Sign up</button>

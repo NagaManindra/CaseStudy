@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import OrderService from '../service/OrderService';
 import LoginService from '../service/LoginService';
 import '../css/orderStyle.css'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-export class TodayOrders extends Component {
+export class TodayOrdersClass extends Component {
     constructor(props) {
         super(props)
 
@@ -26,68 +26,85 @@ export class TodayOrders extends Component {
         );
     }
 
+    allOrders() {
+        this.props.navigate("/allorder")
+    }
+
     render() {
-        if (LoginService.id !== "Profile") {
-            if (this.state.empty) {
-                return (
-                    <div>
-                        {this.state.order.map(
-                            order =>
 
-                                <div className="head2" key={order.orderId} >
-                                    <h3>OrderId : {order.orderId}</h3>
-                                    <h3>Date : {order.orderDate}</h3>
-                                    <h3>Total Price : {order.totalPrice}</h3>
-                                    <h3>Order Status : {order.orderStatus}</h3>
-                                    <h3>Address : {order.address.house_no}, {order.address.street_name}, {order.address.colony_name}, {order.address.city}, {order.address.state}, {order.address.pincode}. Phone : {order.mobile_No}</h3>
-
-                                    <div className="contant2">
-                                        {
-                                            order.items.map(
-                                                list =>
-
-                                                    <div className="card2" key={list.product.productId}>
-                                                        <div className="cardBody2">
-                                                            <h5 className="card1-title">{list.product.productName}</h5>
-                                                            <h6 className="price2">${list.product.price}</h6>
-                                                            <h6 className="category2">Quantity : {list.quantity}</h6>
-                                                            <h6 className="category2" >SubTotal : {list.subTotal}</h6><br />
-                                                        </div>
-
-                                                    </div>
-                                            )}
-                                    </div>
-                                    <br />
-
-                                </div>
-                        )}
-                        <div className="remo">
-                            <Link className="remove4" to={'/allorder'} >All Order</Link>
-                        </div>
-                    </div>
-
-                )
-            }
-            else {
-                <div>
-
-                    <div className='head1'>
-                        <h2>No Order made Today</h2>
-                    </div>
-                </div>
-            }
-        }
-        else {
+        if (this.state.empty) {
             return (
                 <div>
-                    <div className='head1'>
-                        <h2>Please Login to Access Order Services</h2>
-                        <Link className='regBtn3' to={"/login"}>SignIn / SignUp</Link>
+                    {this.state.order.map(
+                        order =>
+
+                            <div data-testid="toOrders" className="head2" key={order.orderId} >
+                                <h3>OrderId : {order.orderId}</h3>
+                                <h3>Date : {order.orderDate}</h3>
+                                <h3>Total Price : {order.totalPrice}</h3>
+                                <h3>Order Status : {order.orderStatus}</h3>
+                                <h3>Address : {order.address.house_no}, {order.address.street_name}, {order.address.colony_name}, {order.address.city}, {order.address.state}, {order.address.pincode}. Phone : {order.mobile_No}</h3>
+
+                                <div className="contant2">
+                                    {
+                                        order.items.map(
+                                            list =>
+
+                                                <div data-testid="items" className="card2" key={list.product.productId}>
+                                                    <div className="cardBody2">
+                                                        <h5 className="card1-title">{list.product.productName}</h5>
+                                                        <h6 className="price2">${list.product.price}</h6>
+                                                        <h6 className="category2">Quantity : {list.quantity}</h6>
+                                                        <h6 className="category2" >SubTotal : {list.subTotal}</h6><br />
+                                                    </div>
+
+                                                </div>
+                                        )}
+                                </div>
+                                <br />
+
+                            </div>
+                    )}
+                    <div className="remo">
+                        <button className="remove4" onClick={() => this.allOrders()} >All Order</button>
                     </div>
                 </div>
+
             )
         }
+        else {
+            <div>
+
+                <div className='head1'>
+                    <h2>No Order made Today</h2>
+                </div>
+            </div>
+        }
     }
+
 }
 
+export default function TodayOrders() {
+    const navigate = useNavigate();
+    const login = () => {
+        navigate("/login")
+    }
+    if (LoginService.id !== "Profile") {
+        return (
+            <div>
+                <TodayOrdersClass navigate={navigate}></TodayOrdersClass>
+            </div>
+        )
+    }
+    else {
+        return (
+            <div>
+                <div className='head1'>
+                    <h2>Please Login to Access Order Services</h2>
+                    <button className='regBtn3' onClick={() => login()}>SignIn / SignUp</button>
+                </div>
+            </div>
+        )
+    }
+}
 

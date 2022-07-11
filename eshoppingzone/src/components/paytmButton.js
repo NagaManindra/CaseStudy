@@ -147,7 +147,7 @@ export function PaytmButton() {
           OrderService.updateOrder(paymentData.order);
           CartService.deleteCart(LoginService.id)
           console.log(paymentData.order)
-          alert("Payment Successfull /n Order placed")
+          alert("Payment Successfull '\n Order placed")
           alert("Please Login Agian")
           window.location = "/"
           setLoading(false);
