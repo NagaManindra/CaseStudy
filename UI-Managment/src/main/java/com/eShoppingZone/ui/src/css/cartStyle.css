@@ -1,0 +1,125 @@
+body {
+    margin-top: 5%;
+    margin-bottom: 2%;
+}
+
+.collection1 {
+    padding-top: 15%;
+}
+
+.contant1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 5px;
+    width: 99%;
+    margin: auto;
+
+}
+
+.card1 {
+    border: 1px black solid;
+    border-radius: 25px;
+
+}
+
+.card1:nth-child(even) {
+    background-color: #d3e6e6;
+}
+
+.card1:nth-child(odd) {
+    background-color: white;
+}
+
+.card1 .card1-title {
+    text-align: center;
+    font-size: 25px;
+    margin: 1px;
+}
+
+.card1 .price1 {
+    text-align: center;
+    color: #7e7e7c;
+    font-size: 15px;
+    margin: 1px;
+}
+
+.card1 .category1 {
+    text-align: center;
+    color: #7e7e7c;
+    font-size: 15px;
+    margin: 1px;
+    border-radius: 25px;
+}
+
+.card1 .add1 {
+    width: 100%;
+    background-color: #74f288;
+    text-align: center;
+    align-content: center;
+}
+
+.head1 {
+    background-color: white;
+    width: 99%;
+    border-radius: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 10px;
+
+}
+
+.remove1 {
+    background-color: #ee6a63fb;
+    border: 1px solid black;
+    width: 20%;
+    text-align: center;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.remove3 {
+    background-color: #026cbb;
+    border: 1px solid black;
+    width: 20%;
+    text-align: center;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.button1 {
+    width: 100%;
+    background-color: #74f288;
+    border: 0px;
+    border-radius: 25px;
+
+}
+
+.regBtn3 {
+    width: 40%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #3e637b;
+    border-radius: 50px;
+    color: white;
+    font-size: large;
+    text-decoration: none;
+}

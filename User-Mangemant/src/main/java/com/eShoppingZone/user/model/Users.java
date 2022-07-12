@@ -26,7 +26,7 @@ import lombok.Setter;
 public class Users {
 
 	@Id
-	@Pattern(regexp = "[A-Za-z0-9]{6,20}", message = "Username must be Alphanumeric and should have lenght 8 to 20")
+	@Pattern(regexp = "[A-Za-z0-9]{6,10}", message = "Username must be Alphanumeric and should have lenght 6 to 20")
 	private String userName;
 	private String fullName;
 	@Email(message = "Enter valid email")

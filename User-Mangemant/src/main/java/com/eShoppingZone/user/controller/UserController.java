@@ -1,9 +1,12 @@
 package com.eShoppingZone.user.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,7 +71,13 @@ public class UserController {
 	// User register
 	@Operation(summary = "Add new User")
 	@PostMapping("/new/register")
-	public ResponseEntity<Users> createUser(@Parameter(description = "Enter User Details") @RequestBody Users user) {
+	public ResponseEntity<Users> createUser(
+			@Parameter(description = "Enter User Details") @Valid @RequestBody Users user, BindingResult result) {
+		if (result.hasErrors()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		}
+
 		Users userData = userService.getByUserName(user.getUserName());
 		user.setRole("user");
 		user.setPassword(passwordEncoder.encode(user.getPassword()));

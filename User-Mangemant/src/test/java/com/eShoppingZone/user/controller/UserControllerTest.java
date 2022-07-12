@@ -51,8 +51,7 @@ class UserControllerTest {
 		Address address = new Address("89/2-2-11-3", "Majestic function hall line", "Balaji Nagar", "Kurnool",
 				"Andhra Pradesh", 518006);
 		users = Users.builder().userName("ng2482").fullName("Manindra").email("ng2482@srmist.edu.in").gender("Male")
-				.dob("2001-06-25").role("user").mobile_no(9515962633l)
-				.password("$2a$10$MyiC.OlXhMRCjARePBjDxOgZ4NYfle84OHQuGc1/TH7deL9i55SYi").address(address).build();
+				.dob("2001-06-25").role("user").mobile_no(9515962633l).password("Naga@7550").address(address).build();
 		System.out.println("Test Case Started");
 	}
 
@@ -84,10 +83,31 @@ class UserControllerTest {
 	void testCreateUser() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
+		Mockito.when(service.getByUserName(users.getUserName())).thenReturn(null);
+
 		when(service.createUser(users)).thenReturn(users);
 		String bookJson = new ObjectMapper().writeValueAsString(users);
 		mockMvc.perform(post("/user/new/register").contentType(MediaType.APPLICATION_JSON).content(bookJson))
 				.andExpect(status().isCreated());
+	}
+
+	@Test
+	@DisplayName("InValid User Details")
+	void testInvalidUser() throws Exception {
+		name = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+		Address address = new Address("89/2-2-11-3", "Majestic function hall line", "Balaji Nagar", "Kurnool",
+				"Andhra Pradesh", 518006);
+		Users users1 = Users.builder().userName("ng24").fullName("Manindra").email("ng2482@srmist.edu.in")
+				.gender("Male").dob("2001-06-25").role("user").mobile_no(9515962633l).password("Naga@7550")
+				.address(address).build();
+		System.out.println("Test Case Started");
+		Mockito.when(service.getByUserName(users.getUserName())).thenReturn(users);
+
+		when(service.createUser(users)).thenReturn(users1);
+		String bookJson = new ObjectMapper().writeValueAsString(users1);
+		mockMvc.perform(post("/user/new/register").contentType(MediaType.APPLICATION_JSON).content(bookJson))
+				.andExpect(status().isBadRequest());
 	}
 
 	@Test

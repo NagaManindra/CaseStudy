@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.eShoppingZone.product.controller.AdminProductController"/>
-    <fullyQualifiedTypeName name="com.eShoppingZone.cart.controller.CartController"/>
     <fullyQualifiedTypeName name="com.eShoppingZone.cart.service.CartService"/>
     <fullyQualifiedTypeName name="antlr.collections.List"/>
     <fullyQualifiedTypeName name="org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder"/>
@@ -59,5 +57,7 @@
     <fullyQualifiedTypeName name="lombok.Builder"/>
     <fullyQualifiedTypeName name="com.eShoppingZone.order.model.Address"/>
     <fullyQualifiedTypeName name="com.eShoppingZone.user.controller.UserController"/>
+    <fullyQualifiedTypeName name="javax.validation.Valid"/>
+    <fullyQualifiedTypeName name="org.springframework.validation.BindingResult"/>
     <fullyQualifiedTypeName name="com.eShoppingZone.user.model.Users"/>
 </qualifiedTypeNameHistroy>
