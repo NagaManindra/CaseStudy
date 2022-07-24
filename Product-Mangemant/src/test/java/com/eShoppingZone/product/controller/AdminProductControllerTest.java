@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.eShoppingZone.product.model.Product;
 import com.eShoppingZone.product.service.ProductService;
+import com.eShoppingZone.product.service.SequenceGeneratorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(value = AdminProductController.class)
@@ -35,6 +36,9 @@ class AdminProductControllerTest {
 
 	@MockBean
 	ProductService service;
+
+	@MockBean
+	SequenceGeneratorService generatorService;
 
 	Product product;
 	String name;
@@ -63,20 +67,19 @@ class AdminProductControllerTest {
 
 	@Test
 	@DisplayName("Get Product")
-	public void testGetProductByd() throws Exception {
+	void testGetProductByd() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		Mockito.when(service.getById(product.getProductId())).thenReturn(product);
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/admin/getById/" + product.getProductId())
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(jsonPath("$", is(notNullValue())))
-				.andExpect(jsonPath("$.productId", is(product.getProductId())));
+				.andExpect(jsonPath("$", is(notNullValue()))).andExpect(jsonPath("$.productId", is(123)));
 	}
 
 	@Test
 	@DisplayName("Create Product")
-	public void testCreateProduct() throws Exception {
+	void testCreateProduct() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		when(service.createProduct(product)).thenReturn(product);
@@ -87,7 +90,7 @@ class AdminProductControllerTest {
 
 	@Test
 	@DisplayName("Update Product")
-	public void testUpdateProduct() throws Exception {
+	void testUpdateProduct() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		when(service.getById(product.getProductId())).thenReturn(product);
@@ -99,7 +102,7 @@ class AdminProductControllerTest {
 
 	@Test
 	@DisplayName("Delete Product")
-	public void testDeleteProduct() throws Exception {
+	void testDeleteProduct() throws Exception {
 		name = new Object() {
 		}.getClass().getEnclosingMethod().getName();
 		when(service.getById(product.getProductId())).thenReturn(product);
