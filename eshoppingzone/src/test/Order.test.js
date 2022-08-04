@@ -1,8 +1,7 @@
-import { render, waitFor, screen, getByTestId } from "@testing-library/react";
+import { render, waitFor, screen } from "@testing-library/react";
 import axios from "axios";
 import { AllOrdersClass } from "../components/AllOrders";
 import { TodayOrdersClass } from "../components/TodayOrders";
-import OrderService from "../service/OrderService"
 
 jest.mock("axios");
 
@@ -97,7 +96,7 @@ test("Get all Order", async () => {
             ]
         },
         {
-            orderId: "62c24fde32a2e90ed596ffde",
+            orderId: "62c24fde32a2e90ed596ffdf",
             customerId: "by2900",
             orderDate: "2022-07-04",
             totalPrice: 998.0,

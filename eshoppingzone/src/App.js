@@ -7,7 +7,6 @@ import UserDetails from './components/UserDetails';
 import UserDelete from './components/UserDelete';
 import UserUpdate from './components/UserUpdate';
 import Logout from './components/Logout';
-import { PaytmButton } from './components/paytmButton';
 import CartListFunction from './components/CartList';
 import TodayOrders from './components/TodayOrders';
 import AllOrders from './components/AllOrders';
@@ -16,6 +15,9 @@ import LoginPage from './components/LoginForm';
 import ProductUpdate from './components/ProductUpdate';
 import ProductAdd from './components/ProductAdd';
 import HeaderComponent from './components/HeaderComponent';
+import GPay from './components/GPay';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
     <div className="App">
       <Router>
         <div className='contain'>
+          <ToastContainer></ToastContainer>
+
           <HeaderComponent></HeaderComponent>
           <div className='contain1'>
             <Routes>
@@ -35,7 +39,7 @@ function App() {
               <Route path='/delete' element={<UserDelete />}></Route>
               <Route path='/cart' element={<CartListFunction />}></Route>
               <Route path='/logout' element={<Logout />}></Route>
-              <Route path='/pay' element={<PaytmButton />}></Route>
+              <Route path='/pay' element={<GPay />}></Route>
               <Route path='/toorder' element={<TodayOrders />}></Route>
               <Route path='/allorder' element={<AllOrders />}></Route>
               <Route path='/admin' element={<AdminProductList />}></Route>

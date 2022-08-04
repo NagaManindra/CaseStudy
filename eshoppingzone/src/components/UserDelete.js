@@ -3,7 +3,7 @@ import bcryptjs from 'bcryptjs';
 import '../css/loginStyle.css';
 import { Navigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
-
+import { toast } from 'react-toastify';
 
 
 function UserDelete() {
@@ -13,34 +13,37 @@ function UserDelete() {
     uname: "user not found",
     pass: "invalid password"
   };
+  const userName = LoginService.id;
+  const [password, setPassword] = useState('');
+
   const handleSubmit = async event => {
     //Prevent page reload
     event.preventDefault();
 
-    var { uname, pass } = document.forms[0];
-    const userDetails = await LoginService.getDetails(uname.value)
+    const userDetails = await LoginService.getDetails(userName)
       .catch(err => {
         setErrorMessages({ name: "uname", message: errors.uname });
       });
 
 
     // Compare user info
-    if (userDetails.data.userName === uname.value & uname.value === LoginService.id) {
-      if (!bcryptjs.compareSync(pass.value, userDetails.data.password)) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        LoginService.deleteUser(uname.value)
-        LoginService.userId("Profile")
-        setIsSubmitted(true);
-        alert(`Deleted ${userDetails.data.fullName}`);
 
-      }
+    if (!bcryptjs.compareSync(password, userDetails.data.password)) {
+      // Invalid password
+      setErrorMessages({ name: "pass", message: errors.pass });
     } else {
-      // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
+      LoginService.deleteUser(userName)
+      LoginService.userId("Profile")
+      setIsSubmitted(true);
+      toast.dark(`Deleted ${userDetails.data.fullName}`, { position: "top-center" });
+
     }
+
   };
+
+  const validatePassword = (e) => {
+    setPassword(e.target.value)
+  }
 
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
@@ -60,13 +63,13 @@ function UserDelete() {
 
 
           <label><b>Username</b></label>
-          <input type="text" className='register' value={LoginService.id} placeholder='username' name='uname' />
+          <input type="text" className='register' value={userName} placeholder='username' name='uname' readOnly />
           {/* <label><b>Email</b></label>
                     <input type="text" className='register' placeholder='abc.@' name='email'
                         onChange={e => this.email = e.target.value}/> */}
 
           <label><b>Password</b></label>
-          <input type="password" className='register' placeholder='password' name='pass' />
+          <input type="password" className='register' placeholder='password' name='pass' onChange={(e) => validatePassword(e)} />
           {renderErrorMessage("pass")}
           {/* <label><b>Confirm Password</b></label>
                     <input type="password" className='register' placeholder='password' name='confirmpassword'

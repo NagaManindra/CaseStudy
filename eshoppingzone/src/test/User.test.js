@@ -1,4 +1,4 @@
-import { render, waitFor, screen, getByTestId } from "@testing-library/react";
+import { render, waitFor, screen } from "@testing-library/react";
 import axios from "axios";
 import { UserDetailsClass } from "../components/UserDetails";
 import UserService from "../service/LoginService"

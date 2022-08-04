@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import LoginService from '../service/LoginService';
+import { toast } from 'react-toastify';
 
 export default class Logout extends Component {
     componentDidMount() {
@@ -8,7 +9,7 @@ export default class Logout extends Component {
 
     logout() {
         LoginService.userId("Profile")
-        alert("Logged out Successfully")
+        toast.dark("Logged out Successfully", { position: "top-right" })
         window.location = '/login'
     }
 

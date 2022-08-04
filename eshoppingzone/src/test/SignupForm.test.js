@@ -1,11 +1,9 @@
 import { render, screen, waitFor, within, fireEvent } from '@testing-library/react';
 import React from 'react';
-import user from '@testing-library/user-event';
 import SignupForm from '../components/SignupForm';
 import axios from "axios";
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LoginService from '../service/LoginService';
 
 jest.mock("axios")
 

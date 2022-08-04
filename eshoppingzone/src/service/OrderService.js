@@ -4,13 +4,19 @@ import LoginService from '../service/LoginService';
 const order_url = "http://localhost:8079/api/order/user/";
 class OrderService {
     constructor() {
-        this.id = null;
+        this.id = "null";
+        this.price = "null";
     }
 
     orderId = (id) => {
         if (!id) return this.id;
         this.id = id;
     }
+    priceId = (id) => {
+        if (!id) return this.price;
+        this.price = id;
+    }
+
     createBasicAuthToken(username, password) {
         return 'Basic ' + window.btoa(username + ":" + password)
     }

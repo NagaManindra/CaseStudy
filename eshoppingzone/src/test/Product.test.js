@@ -1,4 +1,4 @@
-import { render, waitFor, screen, getByTestId } from "@testing-library/react";
+import { render, waitFor, screen } from "@testing-library/react";
 import axios from "axios";
 import ProductList from "../components/ProductList";
 import ProductService from "../service/ProductService"

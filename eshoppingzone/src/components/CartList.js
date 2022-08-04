@@ -4,6 +4,7 @@ import LoginService from '../service/LoginService';
 import '../css/cartStyle.css'
 import { Link, useNavigate } from 'react-router-dom';
 import OrderService from '../service/OrderService';
+import { toast } from 'react-toastify';
 
 export class CartList extends Component {
     constructor(props) {
@@ -68,10 +69,11 @@ export class CartList extends Component {
         if (this.state.cart.totalPrice !== 0) {
             var cartDetails = await OrderService.addOrder(LoginService.id);
             OrderService.orderId(cartDetails.data.orderId);
+            OrderService.priceId(cartDetails.data.totalPrice)
             this.props.navigate("/pay")
         }
         else {
-            alert("Add Items to Cart")
+            toast.error("Add Items to Cart", { position: "top-center" })
         }
     }
 

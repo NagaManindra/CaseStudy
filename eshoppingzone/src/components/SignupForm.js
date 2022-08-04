@@ -3,6 +3,7 @@ import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
 import '../css/loginStyle.css'
+import { toast } from 'react-toastify';
 
 const SignupForm = (props) => {
 
@@ -46,7 +47,7 @@ const SignupForm = (props) => {
             console.log(userName)
 
             LoginService.addUser(user)
-            alert("Registration Successful");
+            toast.success("Registration Successful", { position: "top-center" });
             navigate("/login");
 
         }

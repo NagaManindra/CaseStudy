@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import ProductService from '../service/ProductService';
 import LoginService from '../service/LoginService';
+import { toast } from 'react-toastify';
 
 
 function ProductUpdate() {
@@ -44,7 +45,7 @@ function ProductUpdate() {
         }
 
         ProductService.updateProduct(product).then(res => { console.log(res) });
-        alert("Product Updated")
+        toast.success("Product Updated", { position: "top-center" })
         navigate("/admin")
     }
 

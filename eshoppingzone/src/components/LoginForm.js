@@ -3,6 +3,8 @@ import bcryptjs from 'bcryptjs';
 import '../css/loginStyle.css';
 import { useNavigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
+import { toast } from 'react-toastify'
+
 
 export function LoginForm(props) {
   const [errorMessages, setErrorMessages] = useState({});
@@ -29,7 +31,10 @@ export function LoginForm(props) {
         // Invalid password
         setErrorMessages({ name: "pass", message: errors.pass });
       } else {
-        alert(`welcome ${userDetails.data.fullName}`);
+        toast.success(`welcome ${userDetails.data.fullName}`, { position: "top-center" });
+        if (userDetails.data.mobile_no === 0) {
+          toast.info(`Update Profile`, { position: "bottom-right", autoClose: false });
+        }
         LoginService.userId(userName)
         LoginService.userPassword(password)
         LoginService.userRole(userDetails.data.role)

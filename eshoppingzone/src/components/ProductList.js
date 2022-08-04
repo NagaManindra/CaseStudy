@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import ProductService from '../service/ProductService';
 import LoginService from '../service/LoginService';
 import CartService from '../service/CartService';
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom';
 
 
-
-class ProductList extends Component {
+export class ProductListClass extends Component {
     constructor(props) {
         super(props);
 
@@ -26,11 +27,11 @@ class ProductList extends Component {
     addToCart(productId, productName) {
         if (LoginService.id !== "Profile") {
             CartService.addToCart(this.state.user, productId)
-            alert(`${productName} is added to cart`);
+            toast(`${productName} is added to cart`, { position: "top-right", autoClose: 3000 });
         }
         else {
-            alert("Please Login to access Cart service");
-            window.location = "/login"
+            toast.error("Please Login to access Cart service", { position: "top-center" });
+            this.props.navigate("/login")
         }
     }
 
@@ -55,9 +56,20 @@ class ProductList extends Component {
                         )
                     }
                 </div>
+
             </div>
         );
     }
 }
 
-export default ProductList;
+
+function ProductList() {
+    const navigate = useNavigate();
+    return (
+        <div>
+            <ProductListClass navigate={navigate}></ProductListClass>
+        </div>
+    )
+}
+
+export default ProductList

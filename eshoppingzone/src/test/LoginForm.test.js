@@ -9,7 +9,7 @@ import user from '@testing-library/user-event';
 jest.mock("axios")
 
 
-describe("singUp form", () => {
+describe("Login form", () => {
     describe("with valid inputs", () => {
         it("calls on submit function", async () => {
             const userDetails = {

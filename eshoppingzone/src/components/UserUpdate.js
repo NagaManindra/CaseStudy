@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import validator from 'validator';
 import { useNavigate } from 'react-router-dom';
 import LoginService from '../service/LoginService';
+import { toast } from 'react-toastify';
 
 const UserUpdate = () => {
 
@@ -73,7 +74,7 @@ const UserUpdate = () => {
 
 
 
-            alert("Updated Successful");
+            toast.success("Updated Successful", { position: "top-center" });
             navigate("/profile");
 
         }
