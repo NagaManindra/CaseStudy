@@ -44,6 +44,7 @@ import LoginService from '../service/LoginService';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import '../css/HeaderFooter.css';
+import 'primeicons/primeicons.css';
 
 
 function HeaderComponent(props) {
@@ -63,9 +64,15 @@ function HeaderComponent(props) {
                     <div className="container">
                         <nav>
                             <span className="logo"> E-ShoppingZone</span>
-                            <Link to={'/'} >Home</Link>
+                            <Link to={'/'} >
+                                <i className="pi pi-home" style={{paddingRight: '10px'}}></i>
+                                Home
+                            </Link>
 
-                            <Link to={'/login'}>login</Link>
+                            <Link to={'/login'}>
+                                <i className="pi pi-sign-in" style={{paddingRight: '10px'}}></i>
+                                login
+                            </Link>
                         </nav>
                     </div>
                 </div>
@@ -80,11 +87,26 @@ function HeaderComponent(props) {
                         <div className="container">
                             <nav>
                                 <span className="logo"> E-ShoppingZone</span>
-                                <Link to={'/'} >Home</Link>
-                                <Link to={'/cart'} >Cart</Link>
-                                <Link to={'/toorder'} >Order</Link>
-                                <Link to={'/profile'} >{LoginService.id}</Link>
-                                <Link to={'/logout'} >logout</Link>
+                                <Link to={'/'} >
+                                    <i className="pi pi-home" style={{paddingRight: '10px'}}></i>
+                                    Home
+                                </Link>
+                                <Link to={'/cart'} >
+                                    <i className="pi pi-shopping-cart" style={{paddingRight: '10px'}}></i>
+                                    Cart
+                                </Link>
+                                <Link to={'/toorder'} >
+                                    <i className="pi pi-shopping-bag" style={{paddingRight: '10px'}}></i>
+                                    Order
+                                </Link>
+                                <Link to={'/profile'} >
+                                    <i className="pi pi-user" style={{paddingRight: '10px'}}></i>
+                                    {LoginService.id}
+                                </Link>
+                                <Link to={'/logout'} >
+                                    <i className="pi pi-sign-out" style={{paddingRight: '10px'}}></i>
+                                    logout
+                                </Link>
 
                             </nav>
                         </div>
@@ -98,11 +120,26 @@ function HeaderComponent(props) {
                     <div className="fixed-header">
                         <div className="container">
                             <nav>
-                                <span className="logo"> E-ShoppingZone</span>
-                                <Link to={'/admin'} >Home</Link>
-                                <Link to={'/addPro'} >Add</Link>
-                                <Link to={'/profile'} >{LoginService.id}</Link>
-                                <Link to={'/logout'} >logout</Link>
+                                <span className="logo">
+                                    <img src= {require('../images/online-shopping.png')} width="30px" height="30px"></img>
+                                    E-ShoppingZone
+                                </span>
+                                <Link to={'/admin'} >
+                                    <i className="pi pi-home" style={{paddingRight: '10px'}}></i>
+                                    Home
+                                </Link>
+                                <Link to={'/addPro'} >
+                                    <i className="pi pi-plus" style={{paddingRight: '10px'}}></i>
+                                    Add
+                                </Link>
+                                <Link to={'/profile'} >
+                                    <i className="pi pi-user" style={{paddingRight: '10px'}}></i>
+                                    {LoginService.id}
+                                </Link>
+                                <Link to={'/logout'} >
+                                    <i className="pi pi-sign-out" style={{paddingRight: '10px'}}></i>
+                                    logout
+                                </Link>
 
                             </nav>
                         </div>

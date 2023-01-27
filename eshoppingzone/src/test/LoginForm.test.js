@@ -46,8 +46,8 @@ describe("Login form", () => {
                 user.click(screen.getByTestId("button"))
             })
             const alertMock = jest.spyOn(window, 'alert').mockImplementation();
-            //expect(console.log).toHaveBeenCalledWith(user.userName)
-            expect(alertMock).toHaveBeenCalledTimes(1)
+            expect(console.log).toHaveBeenCalledWith(user.userName)
+            //expect(alertMock).toHaveBeenCalledTimes(1)
         })
     })
 })

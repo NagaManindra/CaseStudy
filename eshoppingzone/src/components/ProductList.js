@@ -49,7 +49,10 @@ export class ProductListClass extends Component {
                                         <h6 className="price">${product.price}</h6>
                                         <h6 className="category">{product.productType}</h6>
                                         <div className="add">
-                                            <button className="button" onClick={() => this.addToCart(product.productId, product.productName)} type="submit">Add to cart</button>
+                                            <button className="button" onClick={() => this.addToCart(product.productId, product.productName)} type="submit">
+                                                <i className="pi pi-plus" style={{paddingRight: '10px'}}></i>
+                                                Add to cart
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

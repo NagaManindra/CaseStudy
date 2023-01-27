@@ -56,8 +56,14 @@ class AdminProductList extends Component {
                                             <h6 className="price">${product.price}</h6>
                                             <h6 className="category">{product.productType}</h6>
                                             <div className="add">
-                                                <button className="button" onClick={() => this.updateItem(product.productId)} type="submit">Edit</button>
-                                                <button className="button12" onClick={() => this.deleteItem(product.productId)} type="submit">Delete</button>
+                                                <button className="button11" onClick={() => this.updateItem(product.productId)} type="submit">
+                                                    <i className="pi pi-pencil" style={{paddingRight: '10px'}}></i>
+                                                    Edit
+                                                </button>
+                                                <button className="button12" onClick={() => this.deleteItem(product.productId)} type="submit">
+                                                    <i className="pi pi-trash" style={{paddingRight: '10px'}}></i>
+                                                    Delete
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

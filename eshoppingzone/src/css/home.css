@@ -79,20 +79,33 @@ body {
 }
 
 .button {
-    width: 50%;
+    width: fit-content;
+    position: relative;
     background-color: #74f288;
     border: 0px;
     border-radius: 25px;
     margin-top: 10px;
-    padding: 10px;
+    padding: 10px;    
+
+}
+
+.button11 {
+    width: 25%;
+    background-color: #74f289ab;
+    border: 0px;
+    border-radius: 25px;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 10px;    
 
 }
 
 .button12 {
-    width: 50%;
-    background-color: #ee3434;
+    width: 25%;
+    background-color: #e64d4d9f;
     border: 0px;
     border-radius: 25px;
     margin-top: 10px;
+    margin-left: 10px;
     padding: 10px;
 }
